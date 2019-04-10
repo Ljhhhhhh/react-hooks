@@ -2,8 +2,10 @@
   "name": "erp",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://admintest.happymmall.com",
   "dependencies": {
     "antd": "^3.16.2",
+    "axios": "^0.18.0",
     "babel-plugin-import": "^1.11.0",
     "customize-cra": "^0.2.12",
     "react": "^16.8.6",

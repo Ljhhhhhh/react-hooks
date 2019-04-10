@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Row, Col, Form, Input, Button, Checkbox } from "antd";
+import axios from 'axios'
 import './index.scss'
 
 const FormItem = Form.Item;
@@ -9,6 +10,9 @@ class Login extends Component {
   handleSubmit = () => {
     const data = this.props.form.getFieldsValue();
     console.log(data, 'data');
+    axios.post(`/manage/user/login.do?username=${data.username}&password=${data.password}`).then(res => {
+      console.log(res, 'resresres')
+    })
   }
   render() {
     const { getFieldDecorator } = this.props.form;
