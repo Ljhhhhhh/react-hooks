@@ -1,33 +1,40 @@
 const menuList = [
   {
     title: "首页",
-    key: "/home"
+    key: "/home",
+    icon: 'home'
   },
   {
-    title: "订单管理",
-    key: "/order",
-    btnList: [
+    title: "商品管理",
+    key: "/product",
+    icon: 'shop',
+    children: [
       {
-        title: "订单详情",
-        key: "detail"
+        title: "商品管理",
+        key: "/product/index",
+        icon: 'shop'
       },
       {
-        title: "结束订单",
-        key: "finish"
+        title: "品类管理",
+        key: "/product/category/:categoryId",
+        icon: 'tags'
       }
     ]
   },
   {
-    title: "用户管理",
-    key: "/user"
+    title: "订单管理",
+    key: "/order",
+    icon: 'ordered-list'
   },
   {
-    title: "商品管理",
-    key: "/product"
+    title: "用户管理",
+    key: "/user",
+    icon: 'user'
   },
   {
     title: "权限设置",
-    key: "/permission"
+    key: "/permission",
+    icon: 'safety'
   }
 ];
 export default menuList;

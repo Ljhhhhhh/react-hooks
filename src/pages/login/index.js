@@ -1,19 +1,36 @@
 import React, { Component } from "react";
-import { Row, Col, Form, Input, Button, Checkbox } from "antd";
-import axios from 'axios'
-import './index.scss'
+import { Row, Col, Form, Input, Button, Checkbox, message } from "antd";
+import UserApi from "../../api/user";
+import Storage from "../../utils/storage";
+import { withRouter } from "react-router";
+import "./index.scss";
 
 const FormItem = Form.Item;
+const userApi = new UserApi();
+const storage = new Storage();
 
 class Login extends Component {
   state = {};
   handleSubmit = () => {
-    const data = this.props.form.getFieldsValue();
-    console.log(data, 'data');
-    axios.post(`/manage/user/login.do?username=${data.username}&password=${data.password}`).then(res => {
-      console.log(res, 'resresres')
-    })
-  }
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const data = this.props.form.getFieldsValue();
+        userApi.login(data).then(res => {
+          if (res.status === 0) {
+            storage.setStorage("userinfo", res.data);
+            message.success("登录成功");
+            this.props.history.replace("/");
+          }
+        });
+      } else {
+        console.log(err)
+        Object.keys(err).forEach(v => {
+          message.error(err[v].errors[0].message)
+        })
+        return false;
+      }
+    });
+  };
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -51,7 +68,7 @@ class Login extends Component {
                       message: "密码不能为空"
                     }
                   ]
-                })(<Input placeholder="请输入密码" />)}
+                })(<Input placeholder="请输入密码" type="password" />)}
               </FormItem>
               <FormItem label="记住密码">
                 {getFieldDecorator("check", {
@@ -60,7 +77,9 @@ class Login extends Component {
                 })(<Checkbox>记住密码</Checkbox>)}
               </FormItem>
               <FormItem>
-                <Button type="primary" onClick={this.handleSubmit}>登录</Button>
+                <Button type="primary" onClick={this.handleSubmit}>
+                  登录
+                </Button>
               </FormItem>
             </Form>
           </Col>
@@ -70,4 +89,4 @@ class Login extends Component {
   }
 }
 
-export default Form.create()(Login);
+export default withRouter(Form.create()(Login));

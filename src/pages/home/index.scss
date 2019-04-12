@@ -1,0 +1,37 @@
+.count-box{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+  height: 150px;
+  text-align: center;
+  opacity: .9;
+  background: #987;
+  color: #FFF;
+  transition: 0.3s all;
+  &:hover{
+    color: #000;
+    transform: scale(1.1);
+  }
+  &.brown{
+    background: #f0ad4e;
+  }
+  &.green{
+    background: #5cb85c;
+  }
+  &.blue{
+    background: #4cb1cf;
+  }
+  .count_value{
+    font-size: 50px;
+    height: 80px;
+    line-height: 80px;
+  }
+  .count_key{
+    font-size: 18px;
+    span{
+      margin-left: 5px;
+    }
+  }
+}
