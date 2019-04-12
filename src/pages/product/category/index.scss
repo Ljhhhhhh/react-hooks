@@ -1,0 +1,18 @@
+.category-title{
+  height: 30px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .ant-breadcrumb-link{
+    font-size: 18px;
+    cursor: pointer;
+  }
+}
+
+.btn-cell{
+  button{
+    margin: 0 10px;
+  }
+}

@@ -16,7 +16,7 @@ const menuList = [
       },
       {
         title: "品类管理",
-        key: "/product/category/:categoryId",
+        key: "/product/category/index",
         icon: 'tags'
       }
     ]

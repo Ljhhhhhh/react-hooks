@@ -1,34 +1,62 @@
 import React, { Component } from 'react'
-import {Table, Button, Modal, Form, Input, message} from 'antd'
-import ProductApi from '../../api/product';
+import {Table, Button, Modal, Form, Input, message, Breadcrumb } from 'antd'
+import ProductApi from '../../../api/product';
 import './index.scss'
 
 const productApi = new ProductApi()
+const BreadcrumbItem = Breadcrumb.Item;
 
 export default class Category extends Component {
   state = {
-    modalShow: false
+    modalShow: false,
+    categoryTree: []
   }
   componentDidMount() {
     this.setState({
-      categoryId: this.props.match.categoryId || 0
+      categoryId: this.props.match.categoryId || 0,
+      categoryTree: [{
+        id: 0,
+        name: '全部'
+      }]
     })
-    this.getCateList();
+    this.getCateList(this.props.match.categoryId);
   }
 
-  getCateList = () => {
-    productApi.getCateById(this.state.categoryId).then(res => {
-      console.log(res, 'res')
+  getCateList = (id = 0) => {
+    this.setState({
+      categoryList: []
+    })
+    productApi.getCateById(id).then(res => {
       const list = []
-      for (let i = 0; i < 20; i++) {
+      const len = res.data.length > 20 ? 20 : res.data.length
+      for (let i = 0; i < len; i++) {
         const item = res.data[i];
         item.key = i
         list.push(item)
       }
       this.setState({
-        categoryList: res.data
+        categoryList: list
       })
     })
+  }
+
+  getCateChild = (item, index) => {
+    const {id} = item
+    let categoryTree;
+    if (index) {
+      if (index === this.state.categoryTree.length) return;
+      categoryTree = this.state.categoryTree.splice(0, index)
+    } else {
+      categoryTree = [...this.state.categoryTree, {
+        name: item.name,
+        id: item.id
+      }]
+    }
+    this.setState({
+      categoryId: id,
+      categoryTree
+    })
+    this.getCateList(id)
   }
 
   openEditModal = (item) => {
@@ -36,13 +64,12 @@ export default class Category extends Component {
       modalShow: true,
       currentItem: item
     })
-    console.log(item, 'item');
   }
   closeModal = (refreshList = false) => {
     this.setState({
       modalShow: false
     })
-    refreshList && this.getCateList()
+    refreshList && this.getCateList(this.state.categoryId)
   }
   
   render() {
@@ -63,15 +90,18 @@ export default class Category extends Component {
         key: 'x',
         render: (text) => (
           <div className="btn-cell">
-            <Button size="small" type="primary" onClick={() => {this.openEditModal(text)}}>修改名称</Button>
-            <Button size="small" type="dashed">查看子类目</Button>
+            <Button icon="edit" size="small" type="primary" onClick={() => {this.openEditModal(text)}}>修改名称</Button>
+            <Button icon="eye" size="small" type="dashed" onClick={() => {this.getCateChild(text)}}>查看子类目</Button>
           </div>
         )
       }
     ]
     return (
       <div>
-        <div className="category-title">当前分类ID: <strong>{this.state.categoryId}</strong></div>
+        <div className="category-title">
+          <CategoryTree categoryTree={this.state.categoryTree} getCateChild={this.getCateChild} />
+          <Button type="primary" icon="plus">添加类目</Button>
+        </div>
         <Table bordered dataSource={this.state.categoryList} columns={columns} />
         <EditModal item={this.state.currentItem} modalShow={this.state.modalShow} closeModal={this.closeModal} />
       </div>
@@ -112,3 +142,23 @@ class EditModal extends Component{
 
 }
 EditModal = Form.create()(EditModal)
+
+class CategoryTree extends Component{
+  render() {
+    return (
+      <Breadcrumb>
+      {
+        // this.props.categoryTree
+        this.props.categoryTree.map((item, index) => {
+          return (
+            <BreadcrumbItem key={item.id}>
+              <span onClick={() => {this.props.getCateChild(item, index + 1)}}>{item.name}</span>
+            </BreadcrumbItem>
+          )
+        })
+      }
+        
+      </Breadcrumb>
+    )
+  }
+}

@@ -14,6 +14,7 @@ const service = axios.create({
 
 // request interceptor
 service.interceptors.request.use(config => {
+  message.loading('网络请求中')
   return config
 }, error => {
   message.info('network request error:' + error)
@@ -23,6 +24,7 @@ service.interceptors.request.use(config => {
 // respone interceptor
 service.interceptors.response.use(
   response => {
+    message.destroy()
     if (response.data.status !== 0) {
       message.info('网络警告:'+ response.data.msg)
     }
