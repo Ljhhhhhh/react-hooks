@@ -7,6 +7,7 @@
     "antd": "^3.16.2",
     "axios": "^0.18.0",
     "babel-plugin-import": "^1.11.0",
+    "braft-editor": "^2.2.9",
     "customize-cra": "^0.2.12",
     "react": "^16.8.6",
     "react-app-rewired": "^2.1.1",

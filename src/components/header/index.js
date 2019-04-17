@@ -12,7 +12,6 @@ class Header extends Component {
   state = {}
   componentDidMount() {
     const {username} = storge.getStorage('userinfo')
-    console.log(username)
     this.setState({
       username
     })

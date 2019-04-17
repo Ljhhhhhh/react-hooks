@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import {Table, Button, Modal, Form, Input, message, Breadcrumb } from 'antd'
+import {withRouter} from 'react-router-dom'
 import ProductApi from '../../../api/product';
 import './index.scss'
 
 const productApi = new ProductApi()
 const BreadcrumbItem = Breadcrumb.Item;
 
-export default class Category extends Component {
+class Category extends Component {
   state = {
     modalShow: false,
     categoryTree: []
@@ -71,6 +72,11 @@ export default class Category extends Component {
     })
     refreshList && this.getCateList(this.state.categoryId)
   }
+
+  addCategory = () => {
+    // TODO:: redux传递当前类目过去
+    this.props.history.push('/product/category/add')
+  }
   
   render() {
     const columns = [
@@ -100,7 +106,7 @@ export default class Category extends Component {
       <div>
         <div className="category-title">
           <CategoryTree categoryTree={this.state.categoryTree} getCateChild={this.getCateChild} />
-          <Button type="primary" icon="plus">添加类目</Button>
+          <Button type="primary" icon="plus" onClick={this.addCategory}>添加类目</Button>
         </div>
         <Table bordered dataSource={this.state.categoryList} columns={columns} />
         <EditModal item={this.state.currentItem} modalShow={this.state.modalShow} closeModal={this.closeModal} />
@@ -162,3 +168,5 @@ class CategoryTree extends Component{
     )
   }
 }
+
+export default withRouter(Category)

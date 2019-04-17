@@ -20,4 +20,57 @@ export default class ProductApi {
       }
     })
   }
+
+  createCagegory(params) {
+    return request({
+      url: '/manage/category/add_category.do',
+      params
+    })
+  }
+
+  fetchProduct(pageNum){
+    return request({
+      url: '/manage/product/list.do',
+      params: {
+        pageNum
+      }
+    })
+  }
+
+  fetchProductBySearch({searchType, key, pageNum}) {
+    return request({
+      url: '/manage/product/search.do',
+      params: {
+        listType: 'search',
+        [searchType]:key,
+        pageNum
+      }
+    })
+  }
+
+  createProduct(data) {
+    return request({
+      url: '/manage/product/save.do',
+      params: data
+    })
+  }
+
+  productDetail(productId) {
+    return request({
+      url: '/manage/product/detail.do',
+      params: {
+        productId
+      }
+    })
+  }
+
+  setStatus(productId, status) {
+    return request({
+      url: '/manage/product/set_sale_status.do',
+      params: {
+        productId,
+        status
+      }
+    })
+  }
 }

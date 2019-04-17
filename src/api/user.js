@@ -19,4 +19,14 @@ export default class UserApi {
       method: 'POST'
     })
   }
+
+  fetchList(pageNum) {
+    return request({
+      url: '/manage/user/list.do',
+      method: 'POST',
+      data: {
+        pageNum
+      }
+    })
+  }
 }
