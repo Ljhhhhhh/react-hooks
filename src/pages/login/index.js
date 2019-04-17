@@ -17,6 +17,7 @@ class Login extends Component {
         const data = this.props.form.getFieldsValue();
         userApi.login(data).then(res => {
           if (res.status === 0) {
+            res.data.role = Math.random(0, 1) >= 0.5 ? 1 : 0
             storage.setStorage("userinfo", res.data);
             message.success("登录成功");
             this.props.history.replace("/");
