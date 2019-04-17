@@ -6,6 +6,12 @@
   box-shadow: 0 3px 3px #dedede;
   position: relative;
   z-index: 2;
+  .page-title{
+    line-height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+  }
   .user-info{
     font-size: 16px;
     line-height: 50px;

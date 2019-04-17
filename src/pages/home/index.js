@@ -14,7 +14,6 @@ export default class Home extends Component {
 
   getHomeData = () => {
     homeApi.home().then(res => {
-      console.log(res);
       const { orderCount, productCount, userCount } = res.data;
       this.setState({
         orderCount,

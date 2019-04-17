@@ -13,7 +13,6 @@ import OrderDetail from './pages/order/detail'
 import User from './pages/user';
 
 import NoMatch from './pages/nomatch'
-
 export default class Router extends Component {
   render() {
     return (

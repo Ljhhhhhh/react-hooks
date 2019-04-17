@@ -1,20 +1,25 @@
 import React, { Component } from "react";
 import { Menu, Icon } from "antd";
 import { NavLink } from "react-router-dom";
+import {connect} from 'react-redux'
 import routerConfig from "../../config/routerConfig";
+import {actionCreators} from '../../store/module/common'
 import './index.scss'
 
 const SubMenu = Menu.SubMenu;
 const MenuItem = Menu.Item;
-
-export default class Nav extends Component {
+class Nav extends Component {
   state = {
-    menuTree: []
+    menuTree: [],
+    currentKey: []
   };
   componentDidMount() {
     const menuTree = this.rednerMenu(routerConfig);
+    let currentKey = window.location.hash.replace(/#|\?.*$/g, '')
+    console.log(currentKey)
     this.setState({
-      menuTree
+      menuTree,
+      currentKey: [currentKey]
     });
   }
   rednerMenu = data => {
@@ -33,13 +38,23 @@ export default class Nav extends Component {
       );
     });
   };
+
+  handleClick = ({key, item}) => {
+    const {dispatch} = this.props;
+    dispatch(actionCreators.setPageTitle(item.props.title))
+    this.setState({
+      currentKey: [key]
+    })
+  }
   render() {
     return (
       <div className="nav-wrap">
-        <Menu mode="inline" theme="dark">
+        <Menu mode="inline" theme="dark" onClick={this.handleClick} selectedKeys={this.state.currentKey}>
           {this.state.menuTree}
         </Menu>
       </div>
     );
   }
 }
+
+export default connect()(Nav)

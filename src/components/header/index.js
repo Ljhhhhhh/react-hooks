@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Row, Col, Icon } from "antd";
+import {connect} from 'react-redux'
 import Storage from '../../utils/storage'
 import ApiUser from '../../api/user'
 import {withRouter } from 'react-router';
@@ -25,7 +26,8 @@ class Header extends Component {
   render() {
     return (
       <div className="header-wrap">
-        <Row type="flex" justify="end">
+        <Row type="flex" justify="space-between">
+          <Col className="page-title">{this.props.pageTitle}</Col>
           <Col>
             <div className="user-info">
               <Icon type="user" />
@@ -42,4 +44,10 @@ class Header extends Component {
  * 使用redux的情况
  * const Login=withRouter(connect(mapStateToProps,mapDispatchToProps)(TLogin))
  */
-export default withRouter(Header)
+const mapStateToProps = state => {
+  return {
+    pageTitle: state.getIn(['common', 'page_title'])
+  }
+};
+
+export default withRouter(connect(mapStateToProps)(Header))

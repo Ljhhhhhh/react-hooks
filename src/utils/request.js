@@ -26,7 +26,12 @@ service.interceptors.response.use(
   response => {
     message.destroy()
     if (response.data.status !== 0) {
-      message.info('网络警告:'+ response.data.msg)
+      if (response.data.status === 10) {
+        message.warning('请先登录')
+        window.location.href = '#/login'
+      } else {
+        message.info('网络警告:'+ response.data.msg)
+      }
     }
     return response.data
   },

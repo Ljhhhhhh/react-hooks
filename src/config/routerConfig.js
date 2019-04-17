@@ -2,7 +2,7 @@ const menuList = [
   {
     title: "首页",
     key: "/home",
-    icon: 'home'
+    icon: 'home',
   },
   {
     title: "商品管理",
@@ -12,7 +12,7 @@ const menuList = [
       {
         title: "商品管理",
         key: "/product/index",
-        icon: 'shop'
+        icon: 'shop',
       },
       {
         title: "品类管理",

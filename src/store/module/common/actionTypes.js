@@ -1,0 +1,1 @@
+export const PAGETITLE = 'common/page_title'

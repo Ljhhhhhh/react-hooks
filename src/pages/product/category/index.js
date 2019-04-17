@@ -28,6 +28,7 @@ class Category extends Component {
       categoryList: []
     })
     productApi.getCateById(id).then(res => {
+      if (!res.data) return;
       const list = []
       const len = res.data.length > 20 ? 20 : res.data.length
       for (let i = 0; i < len; i++) {

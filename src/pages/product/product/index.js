@@ -32,7 +32,9 @@ const productApi = new ProuctApi();
 
   fetchList = () => {
     productApi.fetchProduct(this.state.pageNum).then(res => {
-      this.formatResult(res.data);
+      if (res.data) {
+        this.formatResult(res.data);
+      }
     });
   };
 
