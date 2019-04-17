@@ -30,11 +30,6 @@ const menuList = [
     title: "用户管理",
     key: "/user",
     icon: 'user'
-  },
-  {
-    title: "权限设置",
-    key: "/permission",
-    icon: 'safety'
   }
 ];
 export default menuList;
