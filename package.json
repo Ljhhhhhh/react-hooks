@@ -9,6 +9,7 @@
     "babel-plugin-import": "^1.11.0",
     "braft-editor": "^2.2.9",
     "customize-cra": "^0.2.12",
+    "immutable": "^4.0.0-rc.12",
     "react": "^16.8.6",
     "react-app-rewired": "^2.1.1",
     "react-dom": "^16.8.6",
