@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
+import Storage from './utils/storage'
+import routerConfig from './config/routerConfig'
 import App from './App'
 import Login from './pages/login'
 import Layout from './layout/layout'
@@ -13,6 +15,8 @@ import OrderDetail from './pages/order/detail'
 import User from './pages/user';
 
 import NoMatch from './pages/nomatch'
+
+const storage = new Storage()
 export default class Router extends Component {
   render() {
     return (
@@ -30,7 +34,7 @@ export default class Router extends Component {
                   <Route exact path="/product/product" component={ProductDetail} />
                   <Route exact path="/product/product/:productId" component={ProductDetail} />
                   <Route exact path="/product/product/:productId/:detail" component={ProductDetail} />
-                  <Route path="/order/list" component={Order} />
+                  <AuthorizedRoute path="/order/list" component={Order} routeRole={[1]} />
                   <Route path="/order/detail/:id" component={OrderDetail} />
                   <Route path="/user" component={User} />
                   
@@ -42,6 +46,29 @@ export default class Router extends Component {
           </Switch>
         </App>
       </HashRouter>
+    )
+  }
+}
+
+class AuthorizedRoute extends Component{
+  render() {
+    const {component: Component, ...rest} = this.props
+    const userinfo = storage.getStorage('userinfo')
+    const userrole = userinfo.role;
+    const {routeRole} = {...rest}
+    console.log(routerConfig, 'routerConfig');
+    routerConfig.map(item => {
+      if (item.key === {...rest}.path) {
+        console.log(item);
+      }
+    })
+    // console.log({...rest}.path, 'rest')
+    return (
+      <Route {...rest} render={props => {
+        return routeRole.includes(userrole) ? 
+          <Component {...props} /> :
+          <div>暂未权限访问该页面</div>
+      }} />
     )
   }
 }

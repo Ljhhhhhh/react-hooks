@@ -50,7 +50,6 @@ class Nav extends Component {
   rednerMenu = data => {
     const userinfo = storage.getStorage("userinfo");
     return data.map(route => {
-      console.log(route.role, userinfo.role);
       if (route.role.includes(userinfo.role)) {
         if (route.children && route.children.length) {
           return (
