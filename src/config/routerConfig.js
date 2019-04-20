@@ -29,7 +29,7 @@ const menuList = [
     title: "订单管理",
     key: "/order/list",
     icon: 'ordered-list',
-    role: [1]
+    role: [0, 1]
   },
   {
     title: "用户管理",
