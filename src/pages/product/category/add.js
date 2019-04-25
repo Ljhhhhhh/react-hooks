@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import ProductApi from '../../../api/product';
 import { TreeSelect, Form, Input, Row, Col, Icon, Button, message } from "antd";
 import {withRouter} from 'react-router'
@@ -7,93 +7,77 @@ import getCateList from '../../../utils/categoryFormat'
 const FormItem = Form.Item;
 const productApi = new ProductApi()
 
-class CategoryAdd extends Component {
-  state = {};
+function CategoryAdd(props) {
+  const { getFieldDecorator } = props.form;
+  const [category, setCategory] = useState('')
 
-  selectCategory = value => {
-    this.setState({
-      category: value
-    });
-  };
+  const selectCategory = useCallback(value => {
+    setCategory(value)
+  });
 
-  submit = () => {
-    this.props.form.validateFields((err, values) => {
-      const {categoryName} = this.props.form.getFieldsValue()
+  const submit = () => {
+    props.form.validateFields((err) => {
+      const {categoryName} = props.form.getFieldsValue()
       if (!err) {
         const data = {
-          parentId: this.state.category,
+          parentId: category,
           categoryName: categoryName
         }
         productApi.createCagegory(data).then(res => {
           message.success(res.data)
-          this.props.history.goBack()
-          // this.props.history.
+          props.history.goBack()
         })
       }
     })
   }
 
-  render() {
-    const { getFieldDecorator } = this.props.form;
-    return (
-      <div>
-        <Row>
-          <Col style={{width: 200}}>
-            <Form layout="vertical">
-              <FormItem>
-                <CategoryTreeSelect selectCategory={this.selectCategory} />
-              </FormItem>
-              <FormItem>
-                {getFieldDecorator("categoryName", {
-                  rules: [
-                    {
-                      required: true,
-                      message: "类目名称不能为空"
-                    },
-                  ]
-                })(
-                  <Input placeholder="请输入类目名称" prefix={<Icon type="tag" />} />
-                )}
-              </FormItem>
-            </Form>
-            <Button type="primary" onClick={this.submit}>提交</Button>
-          </Col>
-        </Row>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Row>
+        <Col style={{width: 200}}>
+          <Form layout="vertical">
+            <FormItem>
+              <CategorySelect selectCategory={selectCategory} />
+            </FormItem>
+            <FormItem>
+              {getFieldDecorator("categoryName", {
+                rules: [
+                  {
+                    required: true,
+                    message: "类目名称不能为空"
+                  },
+                ]
+              })(
+                <Input placeholder="请输入类目名称" prefix={<Icon type="tag" />} />
+              )}
+            </FormItem>
+          </Form>
+          <Button type="primary" onClick={submit}>提交</Button>
+        </Col>
+      </Row>
+    </div>
+  );
 }
 
-class CategoryTreeSelect extends Component {
-  state = {
-    categoryList: []
-  };
+function CategorySelect(props) {
+  const [categoryList, setCategoryList] = useState([])
 
-  componentDidMount() {
-    this.getCateList();
-  }
+  useEffect(() => {
+    setCategoryList(getCateList())
+  }, [])
 
-  getCateList = () => {
-    const categoryList = getCateList()
-    this.setState({
-      categoryList
-    });
-  };
-
-  render() {
-    return (
-      <TreeSelect
-        onSelect={value => {
-          this.props.selectCategory(value);
-        }}
-        style={{ width: 200 }}
-        treeData={this.state.categoryList}
-        allowClear
-        placeholder="请选择类目"
-        showSearch
-      />
-    );
-  }
+  return (
+    <TreeSelect
+      onSelect={value => {
+        props.selectCategory(value);
+      }}
+      style={{ width: 200 }}
+      treeData={categoryList}
+      allowClear
+      placeholder="请选择类目"
+      showSearch
+    />
+  );
 }
 
 export default withRouter(Form.create()(CategoryAdd));

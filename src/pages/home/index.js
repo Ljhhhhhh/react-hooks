@@ -1,51 +1,65 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import HomeApi from "../../api/home";
-import {NavLink} from 'react-router-dom'
-import {Row, Col, Icon} from 'antd'
-import './index.scss'
+import { NavLink } from "react-router-dom";
+import { Row, Col, Icon } from "antd";
+import "./index.scss";
 
 const homeApi = new HomeApi();
 
-export default class Home extends Component {
-  state = {};
-  componentDidMount() {
-    this.getHomeData();
-  }
-
-  getHomeData = () => {
+function Home() {
+  const [counts, setCounts] = useState({});
+  useEffect(() => {
     homeApi.home().then(res => {
-      const { orderCount, productCount, userCount } = res.data;
-      this.setState({
-        orderCount,
-        productCount,
-        userCount
-      });
+      setCounts(res.data);
     });
-  };
+  }, []);
 
-  // /manage/statistic/base_count.do
-  render() {
-    return (
+  return (
+    <div>
       <Row type="flex" justify="space-around" gutter={10}>
         <Col span={7}>
-          <NavLink to="/product" className="count-box brown">
-            <div className="count_value">{this.state.productCount}</div>
-            <div className="count_key"><Icon type="shop" /><span>商品总数</span></div>
-          </NavLink>
+          <CountBlock
+            link="/product"
+            cls="brown"
+            value={counts.productCount}
+            icon="shop"
+            label="商品总数"
+          />
         </Col>
         <Col span={7}>
-          <NavLink to="/order" className="count-box green">
-            <div className="count_value">{this.state.orderCount}</div>
-            <div className="count_key"><Icon type="ordered-list"/><span>订单总数</span></div>
-          </NavLink>
+          <CountBlock
+            link="/order"
+            cls="green"
+            value={counts.orderCount}
+            icon="ordered-list"
+            label="订单总数"
+          />
         </Col>
         <Col span={7}>
-          <NavLink to="/user" className="count-box blue">
-            <div className="count_value">{this.state.userCount}</div>
-            <div className="count_key"><Icon type="user"/><span>用户总数</span></div>
-          </NavLink>
+          <CountBlock
+            link="/user"
+            cls="blue"
+            value={counts.userCount}
+            icon="user"
+            label="用户总数"
+          />
         </Col>
       </Row>
-    );
-  }
+    </div>
+  );
 }
+
+const CountBlock = props => {
+  const { link, cls, value, icon, label } = props;
+  return (
+    <NavLink to={link} className={`count-box ${cls}`}>
+      <div className="count_value">{value}</div>
+      <div className="count_key">
+        <Icon type={icon} />
+        <span>{label}</span>
+      </div>
+    </NavLink>
+  );
+};
+
+export default Home;

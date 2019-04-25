@@ -15,7 +15,8 @@ import ProductDetail from './pages/product/product/handle'
 import Order from './pages/order'
 import OrderDetail from './pages/order/detail'
 import User from './pages/user';
-import Hooks from './pages/hooks';
+import Hooks from './pages/hooks/index';
+import Hoc from './pages/hoc/index';
 
 import NoMatch from './pages/nomatch'
 
@@ -27,7 +28,6 @@ class Router extends Component {
         <App>
           <Switch>
             <Route exact path='/login' component={Login} />
-            <Route exact path='/hooks' component={Hooks} />
             <Route path='/' render={() => {
               const userinfo = this.props.userInfo.toJS();
               if (!userinfo.id) {
@@ -54,6 +54,9 @@ class Router extends Component {
                   <AuthorizedRoute path="/order/list" component={Order} />
                   <AuthorizedRoute path="/order/detail/:id" component={OrderDetail} />
                   <AuthorizedRoute path="/user" component={User} />
+                  
+                  <Route path="/hoc" component={Hoc} />
+                  <Route exact path='/hooks' component={Hooks} />
                   
                   <Redirect to='/home' />
                   <Route component={NoMatch} />

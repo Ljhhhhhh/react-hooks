@@ -1,25 +1,24 @@
-import React, { useState } from 'react';
+import React, {useRef, forwardRef, useImperativeHandle} from 'react'
 
-// class Hooks extends Component {
-//   render() {
-//     return (
-//       <div>
-//         hooks
-//       </div>
-//     );
-//   }
-// }
+function FancyInput(props, ref) {
+  const inputRef = useRef()
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      inputRef.current.focus()
+    }
+  }))
+  return <input type="text" ref={inputRef} />
+}
+// eslint-disable-next-line
+FancyInput = forwardRef(FancyInput)
 
-function Hooks() {
-  const [count, setCount] = useState(0);
-  return (
-    <div>
-      <p>you click {count} time</p>
-      <button onClick={() => setCount(count + 1)}>
-        click me
-      </button>
-    </div>
-  )
+const App = props => {
+  const fancyInputRef = useRef()
+  return <div>
+    <FancyInput ref={fancyInputRef} />
+    <hr/>
+    <button onClick={() => fancyInputRef.current.focus()}>父组件调用的focus</button>
+  </div>
 }
 
-export default Hooks;
+export default App
