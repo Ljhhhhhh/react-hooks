@@ -36,18 +36,6 @@ const menuList = [
     key: "/user",
     icon: 'user',
     role: [1] // role 模拟 0 非管理员， 1 管理员
-  },
-  {
-    title: "Hooks案例",
-    key: "/hooks",
-    icon: 'smile',
-    role: [0, 1] // role 模拟 0 非管理员， 1 管理员
-  },
-  {
-    title: "Hoc案例",
-    key: "/hoc",
-    icon: 'robot',
-    role: [0, 1] // role 模拟 0 非管理员， 1 管理员
   }
 ];
 export default menuList;

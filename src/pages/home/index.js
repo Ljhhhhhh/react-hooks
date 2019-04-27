@@ -8,6 +8,7 @@ const homeApi = new HomeApi();
 
 function Home() {
   const [counts, setCounts] = useState({});
+
   useEffect(() => {
     homeApi.home().then(res => {
       setCounts(res.data);

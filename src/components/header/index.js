@@ -1,53 +1,62 @@
-import React, { Component } from "react";
+import React, { useEffect, useState, useCallback, useContext } from "react";
 import { Row, Col, Icon } from "antd";
-import {connect} from 'react-redux'
+import {withRouter} from 'react-router'
 import Storage from '../../utils/storage'
+import {myContext} from '../../storeByHooks/reducer'
+import * as actionTypes from '../../storeByHooks/actionTypes'
 import ApiUser from '../../api/user'
-import {withRouter } from 'react-router';
 import './index.scss'
 
 const storge = new Storage()
 const apiUser = new ApiUser()
 
-class Header extends Component {
-  state = {}
-  componentDidMount() {
-    const {username} = storge.getStorage('userinfo')
-    this.setState({
-      username
-    })
-  }
-  logout = () => {
-    apiUser.logout().then(res => {
+const Header = props => {
+  const [username, setUsername] = useState('')
+  const {state, dispatch} = useContext(myContext)
+
+  useEffect(() => {
+    const userinfo = storge.getStorage('userinfo');
+    setUsername(userinfo.username)
+    if (!state.userinfo.id) {
+      dispatch({
+        type: actionTypes.USERINFO,
+        userinfo
+      })
+    }
+  }, [])
+
+  const logout = useCallback(() => {
+    apiUser.logout().then(() => {
       storge.removeStorage('userinfo')
-      this.props.history.push('/login')
+      props.history.push('/login')
     })
-  }
-  render() {
-    return (
-      <div className="header-wrap">
-        <Row type="flex" justify="space-between">
-          <Col className="page-title">{this.props.pageTitle}</Col>
-          <Col>
-            <div className="user-info">
-              <Icon type="user" />
-              <span className="user-name">欢迎，{this.state.username}</span>
-              <div className="logout-wrap" onClick={this.logout}>退出登录</div>
-            </div>
-          </Col>
-        </Row>
-      </div>
-    );
-  }
+  }, [])
+
+  return (
+    <div className="header-wrap">
+      <Row type="flex" justify="space-between">
+        <Col className="page-title">{state.page_title}</Col>
+        <Col>
+          <div className="user-info">
+            <Icon type="user" />
+            <span className="user-name">欢迎，{username}</span>
+            <div className="logout-wrap" onClick={logout}>退出登录</div>
+          </div>
+        </Col>
+      </Row>
+    </div>
+  );
 }
+
 /**
  * 使用redux的情况
  * const Login=withRouter(connect(mapStateToProps,mapDispatchToProps)(TLogin))
  */
-const mapStateToProps = state => {
-  return {
-    pageTitle: state.getIn(['common', 'page_title'])
-  }
-};
+// const mapStateToProps = state => {
+//   return {
+//     pageTitle: state.getIn(['common', 'page_title'])
+//   }
+// };
 
-export default withRouter(connect(mapStateToProps)(Header))
+// export default withRouter(connect(mapStateToProps)(Header))
+export default withRouter(Header)
