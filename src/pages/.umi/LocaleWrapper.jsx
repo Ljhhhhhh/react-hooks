@@ -36,10 +36,10 @@ const localeInfo = {
   "en-US": {
     messages: {
       ...(locale => (locale.__esModule ? locale.default : locale))(
-        require("/Users/lujiehui/Documents/www/learn/react-hooks/src/locales/en-US.ts")
+        require("/Users/macbookpro/Documents/www/learn/react-hooks/src/locales/en-US.ts")
       ),
       ...(locale => (locale.__esModule ? locale.default : locale))(
-        require("/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/account/login/locales/en-US.ts")
+        require("/Users/macbookpro/Documents/www/learn/react-hooks/src/pages/account/login/locales/en-US.ts")
       )
     },
     locale: "en-US",
@@ -50,7 +50,7 @@ const localeInfo = {
   "pt-BR": {
     messages: {
       ...(locale => (locale.__esModule ? locale.default : locale))(
-        require("/Users/lujiehui/Documents/www/learn/react-hooks/src/locales/pt-BR.ts")
+        require("/Users/macbookpro/Documents/www/learn/react-hooks/src/locales/pt-BR.ts")
       )
     },
     locale: "pt-BR",
@@ -61,10 +61,10 @@ const localeInfo = {
   "zh-CN": {
     messages: {
       ...(locale => (locale.__esModule ? locale.default : locale))(
-        require("/Users/lujiehui/Documents/www/learn/react-hooks/src/locales/zh-CN.ts")
+        require("/Users/macbookpro/Documents/www/learn/react-hooks/src/locales/zh-CN.ts")
       ),
       ...(locale => (locale.__esModule ? locale.default : locale))(
-        require("/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/account/login/locales/zh-CN.ts")
+        require("/Users/macbookpro/Documents/www/learn/react-hooks/src/pages/account/login/locales/zh-CN.ts")
       )
     },
     locale: "zh-CN",
@@ -75,10 +75,10 @@ const localeInfo = {
   "zh-TW": {
     messages: {
       ...(locale => (locale.__esModule ? locale.default : locale))(
-        require("/Users/lujiehui/Documents/www/learn/react-hooks/src/locales/zh-TW.ts")
+        require("/Users/macbookpro/Documents/www/learn/react-hooks/src/locales/zh-TW.ts")
       ),
       ...(locale => (locale.__esModule ? locale.default : locale))(
-        require("/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/account/login/locales/zh-TW.ts")
+        require("/Users/macbookpro/Documents/www/learn/react-hooks/src/pages/account/login/locales/zh-TW.ts")
       )
     },
     locale: "zh-TW",

@@ -1,85 +1,93 @@
-import { Effect } from "dva";
-import { Reducer } from "redux";
+import { AnyAction, Reducer } from "redux";
+import { parse, stringify } from "qs";
+import { fakeAccountLogin } from "@/services/user";
+import { EffectsCommandMap } from "dva";
+import { routerRedux } from "dva/router";
+import { setAuthority } from "@/utils/utils";
 
-import { queryCurrent, query as queryUsers } from "@/services/user";
-
-export interface CurrentUser {
-  avatar?: string;
-  name?: string;
-  title?: string;
-  group?: string;
-  signature?: string;
-  tags?: {
-    key: string;
-    label: string;
-  }[];
-  unreadCount?: number;
+export function getPageQuery(): {
+  [key: string]: string;
+} {
+  return parse(window.location.href.split("?")[1]);
 }
 
-export interface UserModelState {
-  currentUser?: CurrentUser;
-}
+export type Effect = (
+  action: AnyAction,
+  effects: EffectsCommandMap & { select: <T>(func: (state: {}) => T) => T }
+) => void;
 
-export interface UserModelType {
-  namespace: "user";
-  state: UserModelState;
+export interface ModelType {
+  namespace: string;
+  state: {};
   effects: {
-    fetch: Effect;
-    fetchCurrent: Effect;
+    logout: Effect;
+    login: Effect;
   };
   reducers: {
-    saveCurrentUser: Reducer<UserModelState>;
-    changeNotifyCount: Reducer<UserModelState>;
+    changeLoginStatus: Reducer<{}>;
   };
 }
 
-const UserModel: UserModelType = {
+const Model: ModelType = {
   namespace: "user",
 
   state: {
-    currentUser: {}
+    status: undefined
   },
 
   effects: {
-    *fetch(_, { call, put }) {
-      const response = yield call(queryUsers);
-      yield put({
-        type: "save",
-        payload: response
-      });
+    *logout(_, { put }) {
+      const { redirect } = getPageQuery();
+      localStorage.clear();
+      // redirect
+      if (window.location.pathname !== "/account/login" && !redirect) {
+        yield put(
+          routerRedux.replace({
+            pathname: "/account/login",
+            search: stringify({
+              redirect: window.location.href
+            })
+          })
+        );
+      }
     },
-    *fetchCurrent(_, { call, put }) {
-      const response = yield call(queryCurrent);
-      yield put({
-        type: "saveCurrentUser",
-        payload: response
-      });
+    *login({ payload }, { call, put }) {
+      const response = yield call(fakeAccountLogin, payload);
+      // Login successfully
+      if (response.status === 0) {
+        yield put({
+          type: "changeLoginStatus",
+          payload: response.data
+        });
+        const urlParams = new URL(window.location.href);
+        const params = getPageQuery();
+        let { redirect } = params as { redirect: string };
+        if (redirect) {
+          const redirectUrlParams = new URL(redirect);
+          if (redirectUrlParams.origin === urlParams.origin) {
+            redirect = redirect.substr(urlParams.origin.length);
+            if (redirect.match(/^\/.*#/)) {
+              redirect = redirect.substr(redirect.indexOf("#") + 1);
+            }
+          } else {
+            window.location.href = redirect;
+            return;
+          }
+        }
+        yield put(routerRedux.replace(redirect || "/"));
+      }
     }
   },
 
   reducers: {
-    saveCurrentUser(state, action) {
+    changeLoginStatus(state, { payload }) {
+      setAuthority("admin");
       return {
         ...state,
-        currentUser: action.payload || {}
-      };
-    },
-    changeNotifyCount(
-      state = {
-        currentUser: {}
-      },
-      action
-    ) {
-      return {
-        ...state,
-        currentUser: {
-          ...state.currentUser,
-          notifyCount: action.payload.totalCount,
-          unreadCount: action.payload.unreadCount
-        }
+        ...payload
       };
     }
   }
 };
 
-export default UserModel;
+export default Model;

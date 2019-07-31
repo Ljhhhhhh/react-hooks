@@ -1,14 +1,18 @@
-import { Row, Col, Icon } from "antd";
-import { FormattedMessage, formatMessage } from "umi-plugin-react/locale";
+import { Icon } from "antd";
+import { formatMessage } from "umi-plugin-react/locale"; // FormattedMessage,
 import React, { Component } from "react";
 import SchemaForm, { Field, FormButtonGroup, Submit, Reset } from "@uform/antd";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { Dispatch } from "redux";
-import Link from "umi/link";
+// import Link from "umi/link";
 import { connect } from "dva";
-import { StateType } from "./model";
 import styles from "./style.less";
 import "antd/dist/antd.css";
+
+interface StateType {
+  status?: number;
+  data: any;
+}
 
 interface LoginProps {
   dispatch: Dispatch<any>;
@@ -26,18 +30,18 @@ export interface FormDataType {
 
 @connect(
   ({
-    userLogin,
+    user,
     loading
   }: {
-    userLogin: StateType;
+    user: StateType;
     loading: {
       effects: {
         [key: string]: string;
       };
     };
   }) => ({
-    userLogin,
-    submitting: loading.effects["userLogin/login"]
+    user,
+    submitting: loading.effects["user/login"]
   })
 )
 class Login extends Component<LoginProps, LoginState> {
@@ -53,10 +57,10 @@ class Login extends Component<LoginProps, LoginState> {
     });
   };
 
-  handleSubmit = values => {
+  handleSubmit = (values: FormDataType) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "userLogin/login",
+      type: "user/login",
       payload: {
         ...values
       }
@@ -64,16 +68,16 @@ class Login extends Component<LoginProps, LoginState> {
   };
 
   render() {
-    const { userLogin, submitting } = this.props;
-    const { status } = userLogin;
-    const { autoLogin } = this.state;
+    // const { userLogin, submitting } = this.props;
+    // const { status } = userLogin;
+    // const { autoLogin } = this.state;
     return (
       <div className={styles.main}>
         <SchemaForm layout="vertical" onSubmit={this.handleSubmit}>
           <Field
             type="string"
             required
-            name="userName"
+            name="username"
             x-props={{
               placeholder: `${formatMessage({
                 id: "user-login.login.userName"

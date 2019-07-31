@@ -3,7 +3,7 @@ import { Router as DefaultRouter, Route, Switch } from "react-router-dom";
 import dynamic from "umi/dynamic";
 import renderRoutes from "umi/lib/renderRoutes";
 import history from "@tmp/history";
-import RendererWrapper0 from "/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/.umi/LocaleWrapper.jsx";
+import RendererWrapper0 from "/Users/macbookpro/Documents/www/learn/react-hooks/src/pages/.umi/LocaleWrapper.jsx";
 import _dvaDynamic from "dva/dynamic";
 
 const Router = require("dva/router").routerRedux.ConnectedRouter;
@@ -17,7 +17,7 @@ const routes = [
             import(
               /* webpackChunkName: "layouts__UserLayout" */ "../../layouts/UserLayout"
             ),
-          LoadingComponent: require("/Users/lujiehui/Documents/www/learn/react-hooks/src/components/PageLoading/index")
+          LoadingComponent: require("/Users/macbookpro/Documents/www/learn/react-hooks/src/components/PageLoading/index")
             .default
         })
       : require("../../layouts/UserLayout").default,
@@ -27,19 +27,11 @@ const routes = [
         path: "/account/login",
         component: __IS_BROWSER
           ? _dvaDynamic({
-              app: require("@tmp/dva").getApp(),
-              models: () => [
-                import(
-                  /* webpackChunkName: 'p__account__login__model.ts' */ "/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/account/login/model.ts"
-                ).then(m => {
-                  return { namespace: "model", ...m.default };
-                })
-              ],
               component: () =>
                 import(
                   /* webpackChunkName: "p__account__login" */ "../account/login"
                 ),
-              LoadingComponent: require("/Users/lujiehui/Documents/www/learn/react-hooks/src/components/PageLoading/index")
+              LoadingComponent: require("/Users/macbookpro/Documents/www/learn/react-hooks/src/components/PageLoading/index")
                 .default
             })
           : require("../account/login").default,
@@ -48,7 +40,7 @@ const routes = [
       {
         component: () =>
           React.createElement(
-            require("/Users/lujiehui/Documents/www/learn/react-hooks/node_modules/_umi-build-dev@1.10.16@umi-build-dev/lib/plugins/404/NotFound.js")
+            require("/Users/macbookpro/Documents/www/learn/react-hooks/node_modules/_umi-build-dev@1.10.16@umi-build-dev/lib/plugins/404/NotFound.js")
               .default,
             { pagesPath: "src/pages", hasRoutesInConfig: true }
           )
@@ -63,7 +55,7 @@ const routes = [
             import(
               /* webpackChunkName: "layouts__BasicLayout" */ "../../layouts/BasicLayout"
             ),
-          LoadingComponent: require("/Users/lujiehui/Documents/www/learn/react-hooks/src/components/PageLoading/index")
+          LoadingComponent: require("/Users/macbookpro/Documents/www/learn/react-hooks/src/components/PageLoading/index")
             .default
         })
       : require("../../layouts/BasicLayout").default,
@@ -78,7 +70,7 @@ const routes = [
           ? _dvaDynamic({
               component: () =>
                 import(/* webpackChunkName: "p__Welcome" */ "../Welcome"),
-              LoadingComponent: require("/Users/lujiehui/Documents/www/learn/react-hooks/src/components/PageLoading/index")
+              LoadingComponent: require("/Users/macbookpro/Documents/www/learn/react-hooks/src/components/PageLoading/index")
                 .default
             })
           : require("../Welcome").default,
@@ -89,7 +81,7 @@ const routes = [
           ? _dvaDynamic({
               component: () =>
                 import(/* webpackChunkName: "p__404" */ "../404"),
-              LoadingComponent: require("/Users/lujiehui/Documents/www/learn/react-hooks/src/components/PageLoading/index")
+              LoadingComponent: require("/Users/macbookpro/Documents/www/learn/react-hooks/src/components/PageLoading/index")
                 .default
             })
           : require("../404").default,
@@ -98,7 +90,7 @@ const routes = [
       {
         component: () =>
           React.createElement(
-            require("/Users/lujiehui/Documents/www/learn/react-hooks/node_modules/_umi-build-dev@1.10.16@umi-build-dev/lib/plugins/404/NotFound.js")
+            require("/Users/macbookpro/Documents/www/learn/react-hooks/node_modules/_umi-build-dev@1.10.16@umi-build-dev/lib/plugins/404/NotFound.js")
               .default,
             { pagesPath: "src/pages", hasRoutesInConfig: true }
           )
@@ -109,7 +101,7 @@ const routes = [
     component: __IS_BROWSER
       ? _dvaDynamic({
           component: () => import(/* webpackChunkName: "p__404" */ "../404"),
-          LoadingComponent: require("/Users/lujiehui/Documents/www/learn/react-hooks/src/components/PageLoading/index")
+          LoadingComponent: require("/Users/macbookpro/Documents/www/learn/react-hooks/src/components/PageLoading/index")
             .default
         })
       : require("../404").default,
@@ -118,7 +110,7 @@ const routes = [
   {
     component: () =>
       React.createElement(
-        require("/Users/lujiehui/Documents/www/learn/react-hooks/node_modules/_umi-build-dev@1.10.16@umi-build-dev/lib/plugins/404/NotFound.js")
+        require("/Users/macbookpro/Documents/www/learn/react-hooks/node_modules/_umi-build-dev@1.10.16@umi-build-dev/lib/plugins/404/NotFound.js")
           .default,
         { pagesPath: "src/pages", hasRoutesInConfig: true }
       )

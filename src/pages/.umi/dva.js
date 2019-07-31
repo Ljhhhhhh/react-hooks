@@ -22,22 +22,17 @@ export function _onCreate() {
 
   app.model({
     namespace: "global",
-    ...require("/Users/lujiehui/Documents/www/learn/react-hooks/src/models/global.ts")
-      .default
-  });
-  app.model({
-    namespace: "login",
-    ...require("/Users/lujiehui/Documents/www/learn/react-hooks/src/models/login.ts")
+    ...require("/Users/macbookpro/Documents/www/learn/react-hooks/src/models/global.ts")
       .default
   });
   app.model({
     namespace: "setting",
-    ...require("/Users/lujiehui/Documents/www/learn/react-hooks/src/models/setting.ts")
+    ...require("/Users/macbookpro/Documents/www/learn/react-hooks/src/models/setting.ts")
       .default
   });
   app.model({
     namespace: "user",
-    ...require("/Users/lujiehui/Documents/www/learn/react-hooks/src/models/user.ts")
+    ...require("/Users/macbookpro/Documents/www/learn/react-hooks/src/models/user.ts")
       .default
   });
   return app;

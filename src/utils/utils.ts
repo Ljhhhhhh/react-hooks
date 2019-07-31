@@ -19,4 +19,12 @@ const isAntDesignProOrDev = (): boolean => {
   return isAntDesignPro();
 };
 
+export function setAuthority(authority: string | string[]) {
+  const proAuthority = typeof authority === "string" ? [authority] : authority;
+  return localStorage.setItem(
+    "antd-pro-authority",
+    JSON.stringify(proAuthority)
+  );
+}
+
 export { isAntDesignProOrDev, isAntDesignPro, isUrl };
