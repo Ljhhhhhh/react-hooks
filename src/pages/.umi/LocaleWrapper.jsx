@@ -35,7 +35,7 @@ defaultAntd = defaultAntd.default || defaultAntd;
 const localeInfo = {
   'en-US': {
     messages: {
-      ...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/locales/en-US.ts')),...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/account/login/locales/en-US.ts')),...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/Exception/locales/en-US.js')),
+      ...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/locales/en-US.ts')),...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/Account/login/locales/en-US.ts')),...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/Exception/locales/en-US.js')),
     },
     locale: 'en-US',
     antd: require('antd/lib/locale-provider/en_US'),
@@ -53,7 +53,7 @@ const localeInfo = {
   },
   'zh-CN': {
     messages: {
-      ...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/locales/zh-CN.ts')),...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/account/login/locales/zh-CN.ts')),...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/Exception/locales/zh-CN.js')),
+      ...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/locales/zh-CN.ts')),...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/Account/login/locales/zh-CN.ts')),...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/Exception/locales/zh-CN.js')),
     },
     locale: 'zh-CN',
     antd: require('antd/lib/locale-provider/zh_CN'),
@@ -62,7 +62,7 @@ const localeInfo = {
   },
   'zh-TW': {
     messages: {
-      ...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/locales/zh-TW.ts')),...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/account/login/locales/zh-TW.ts')),...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/Exception/locales/zh-TW.js')),
+      ...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/locales/zh-TW.ts')),...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/Account/login/locales/zh-TW.ts')),...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/Exception/locales/zh-TW.js')),
     },
     locale: 'zh-TW',
     antd: require('antd/lib/locale-provider/zh_TW'),

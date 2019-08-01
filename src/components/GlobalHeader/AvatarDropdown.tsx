@@ -21,7 +21,7 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
     if (!currentUser.username) {
       const { dispatch } = this.props;
       dispatch!({
-        type: "user/setUserinfo"
+        type: "account/setUserinfo"
       });
     }
   }
@@ -33,7 +33,7 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
       const { dispatch } = this.props;
       if (dispatch) {
         dispatch({
-          type: "user/logout"
+          type: "account/logout"
         });
       }
 
@@ -102,6 +102,6 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
     );
   }
 }
-export default connect(({ user }: ConnectState) => ({
-  currentUser: user
+export default connect(({ account }: ConnectState) => ({
+  currentUser: account
 }))(AvatarDropdown);

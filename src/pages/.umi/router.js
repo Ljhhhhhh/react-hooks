@@ -26,11 +26,11 @@ const routes = [
         component: __IS_BROWSER
           ? _dvaDynamic({
               component: () =>
-                import(/* webpackChunkName: "p__account__login" */ '../account/login'),
+                import(/* webpackChunkName: "p__Account__login" */ '../Account/login'),
               LoadingComponent: require('/Users/lujiehui/Documents/www/learn/react-hooks/src/components/PageLoading/index')
                 .default,
             })
-          : require('../account/login').default,
+          : require('../Account/login').default,
         exact: true,
       },
       {
@@ -95,27 +95,38 @@ const routes = [
     routes: [
       {
         path: '/',
-        name: 'welcome',
-        icon: 'smile',
+        name: 'dashboard',
+        icon: 'home',
         component: __IS_BROWSER
           ? _dvaDynamic({
               component: () =>
-                import(/* webpackChunkName: "p__Welcome" */ '../Welcome'),
+                import(/* webpackChunkName: "p__Home" */ '../Home'),
               LoadingComponent: require('/Users/lujiehui/Documents/www/learn/react-hooks/src/components/PageLoading/index')
                 .default,
             })
-          : require('../Welcome').default,
+          : require('../Home').default,
         exact: true,
       },
       {
+        name: 'user',
+        path: '/user',
+        icon: 'user',
         component: __IS_BROWSER
           ? _dvaDynamic({
+              app: require('@tmp/dva').getApp(),
+              models: () => [
+                import(/* webpackChunkName: 'p__user__list__model.ts' */ '/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/user/list/model.ts').then(
+                  m => {
+                    return { namespace: 'model', ...m.default };
+                  },
+                ),
+              ],
               component: () =>
-                import(/* webpackChunkName: "p__404" */ '../404'),
+                import(/* webpackChunkName: "p__user__list" */ '../user/list'),
               LoadingComponent: require('/Users/lujiehui/Documents/www/learn/react-hooks/src/components/PageLoading/index')
                 .default,
             })
-          : require('../404').default,
+          : require('../user/list').default,
         exact: true,
       },
       {
@@ -127,6 +138,17 @@ const routes = [
           ),
       },
     ],
+  },
+  {
+    component: __IS_BROWSER
+      ? _dvaDynamic({
+          component: () =>
+            import(/* webpackChunkName: "p__Exception__404" */ '../Exception/404'),
+          LoadingComponent: require('/Users/lujiehui/Documents/www/learn/react-hooks/src/components/PageLoading/index')
+            .default,
+        })
+      : require('../Exception/404').default,
+    exact: true,
   },
   {
     component: () =>

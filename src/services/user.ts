@@ -1,12 +1,10 @@
 import request from "@/utils/request";
-export interface FormDataType {
-  userName: string;
-  password: string;
-}
 
-export async function fakeAccountLogin(params: FormDataType) {
-  return request("/manage/user/login.do", {
-    method: "POST",
-    data: params
-  });
+export function fetchUser(pageNum?: number) {
+  return request('/manage/user/list.do', {
+    method: 'POST',
+    data: {
+      pageNum
+    }
+  })
 }

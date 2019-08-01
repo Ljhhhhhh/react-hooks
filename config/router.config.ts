@@ -1,47 +1,49 @@
 export default [
   {
-    path: "/account",
-    component: "../layouts/UserLayout",
+    path: '/account',
+    component: '../layouts/UserLayout',
     routes: [
       {
-        name: "login",
-        path: "/account/login",
-        component: "./account/login"
-      }
-    ]
+        name: 'login',
+        path: '/account/login',
+        component: './Account/login',
+      },
+    ],
   },
   {
     path: '/exception',
     routes: [
       {
         path: '/exception/404',
-        component: './Exception/404'
+        component: './Exception/404',
       },
       {
         path: '/exception/403',
-        component: './Exception/403'
-      }
-    ]
+        component: './Exception/403',
+      },
+    ],
   },
   {
-    path: "/",
-    component: "../layouts/BasicLayout",
-    Routes: ["src/pages/Authorized"],
+    path: '/',
+    component: '../layouts/BasicLayout',
+    Routes: ['src/pages/Authorized'],
     authority: ['admin', 'user'],
     routes: [
       {
-        path: "/",
-        name: "welcome",
-        icon: "smile",
-        component: "./Welcome",
+        path: '/',
+        name: 'dashboard',
+        icon: 'home',
+        component: './Home',
       },
       {
-        component: "./404"
-      }
-    ]
+        name: 'user',
+        path: '/user',
+        icon: 'user',
+        component: './user/list',
+      },
+    ],
   },
-  // {
-  //   component: "./404"
-  // }
-]
-// /exception/403
+  {
+    component: './Exception/404',
+  },
+];

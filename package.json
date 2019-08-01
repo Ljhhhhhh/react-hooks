@@ -25,8 +25,7 @@
     "test:all": "node ./tests/run-tests.js",
     "test:component": "umi test ./src/components"
   },
-  "husky": {
-  },
+  "husky": {},
   "lint-staged": {
     "**/*.less": "stylelint --syntax less",
     "**/*.{js,jsx,tsx,ts,less,md,json}": [
@@ -49,6 +48,7 @@
     "axios": "^0.19.0",
     "classnames": "^2.2.6",
     "dva": "^2.4.1",
+    "hash.js": "^1.1.7",
     "lodash": "^4.17.11",
     "lodash-decorators": "^6.0.1",
     "memoize-one": "^5.0.4",

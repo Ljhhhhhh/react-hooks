@@ -4,7 +4,6 @@ import React, { Component } from "react";
 import SchemaForm, { Field, FormButtonGroup, Submit, Reset } from "@uform/antd";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { Dispatch } from "redux";
-// import Link from "umi/link";
 import { connect } from "dva";
 import styles from "./style.less";
 import "antd/dist/antd.css";
@@ -17,7 +16,7 @@ interface StateType {
 interface LoginProps {
   dispatch: Dispatch<any>;
   userLogin: StateType;
-  submitting: boolean;
+  // submitting: boolean;
 }
 interface LoginState {
   // type: string;
@@ -30,18 +29,18 @@ export interface FormDataType {
 
 @connect(
   ({
-    user,
+    account,
     loading
   }: {
-    user: StateType;
+    account: StateType;
     loading: {
       effects: {
         [key: string]: string;
       };
     };
   }) => ({
-    user,
-    submitting: loading.effects["user/login"]
+    account,
+    submitting: loading.effects["user/getUserList"]
   })
 )
 class Login extends Component<LoginProps, LoginState> {
@@ -60,7 +59,7 @@ class Login extends Component<LoginProps, LoginState> {
   handleSubmit = (values: FormDataType) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "user/login",
+      type: "account/login",
       payload: {
         ...values
       }

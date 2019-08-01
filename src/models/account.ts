@@ -1,6 +1,6 @@
 import { AnyAction, Reducer } from "redux";
 import { parse, stringify } from "qs";
-import { fakeAccountLogin } from "@/services/user";
+import { fakeAccountLogin } from "@/services/account";
 import { EffectsCommandMap } from "dva";
 import { routerRedux } from "dva/router";
 import { setUserinfo } from "@/utils/utils";
@@ -16,6 +16,10 @@ export type Effect = (
   effects: EffectsCommandMap & { select: <T>(func: (state: {}) => T) => T }
 ) => void;
 
+export interface UserModelState {
+  [key: string]: string | number;
+}
+
 export interface ModelType {
   namespace: string;
   state: {};
@@ -30,7 +34,7 @@ export interface ModelType {
 }
 
 const Model: ModelType = {
-  namespace: "user",
+  namespace: "account",
 
   state: {
     status: undefined
@@ -40,6 +44,10 @@ const Model: ModelType = {
     *logout(_, { put }) {
       const { redirect } = getPageQuery();
       localStorage.clear();
+      yield put({
+        type: "changeLoginStatus",
+        payload: {}
+      });
       // redirect
       if (window.location.pathname !== "/account/login" && !redirect) {
         yield put(
@@ -95,7 +103,6 @@ const Model: ModelType = {
     changeLoginStatus(state, { payload }) {
       setUserinfo(payload);
       return {
-        ...state,
         ...payload
       };
     }

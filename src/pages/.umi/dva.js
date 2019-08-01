@@ -20,9 +20,9 @@ export function _onCreate() {
     app.use(plugin);
   });
   
-  app.model({ namespace: 'global', ...(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/models/global.ts').default) });
+  app.model({ namespace: 'account', ...(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/models/account.ts').default) });
+app.model({ namespace: 'global', ...(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/models/global.ts').default) });
 app.model({ namespace: 'setting', ...(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/models/setting.ts').default) });
-app.model({ namespace: 'user', ...(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/models/user.ts').default) });
   return app;
 }
 

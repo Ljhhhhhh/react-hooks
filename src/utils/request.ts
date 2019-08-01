@@ -86,7 +86,7 @@ service.interceptors.response.use(
     if (response.data.status !== 0) {
       if (response.data.status === 10) {
         message.warning("请先登录");
-        window.location.href = "#/login";
+        window.location.href = "/account/login";
       } else {
         message.info("网络警告:" + response.data.msg);
       }
