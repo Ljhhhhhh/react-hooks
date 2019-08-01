@@ -48,23 +48,20 @@ const Model: ModelType = {
   effects: {
     *getUserList({ payload }, { call, put }) {
       yield put({type: "setLoading"});
-      const response = yield call(fetchUser, payload)
+      let data = payload
+      if (!data) {
+        data = {
+          current: 1,
+          pageSize: 10
+        }
+      }
+      const response = yield call(fetchUser, data)
       if (response.status === 0) {
         yield put({
           type: "setUserList",
           payload: response.data
         });
       }
-
-      // let userinfo = localStorage.getItem("userinfo") ? JSON.parse(localStorage.getItem("userinfo") || '') : null
-      // if (userinfo) {
-      //   yield put({
-      //     type: "changeLoginStatus",
-      //     payload: userinfo
-      //   });
-      // } else {
-      //   yield put(routerRedux.replace("/account/login"));
-      // }
     }
   },
 

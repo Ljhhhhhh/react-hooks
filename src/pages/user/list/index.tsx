@@ -30,7 +30,7 @@ const UserList = (props: userListProps) => {
   useEffect(() => {
     const { dispatch } = props;
     dispatch({
-      type: 'user/getUserList'
+      type: 'user/getUserList',
     })
   }, [])
 
@@ -77,46 +77,24 @@ const UserList = (props: userListProps) => {
 
   const handleStandardTableChange = (pagination: any) => {
     const { dispatch } = props;
-    console.log(pagination, '检查pagination')
-    const params = {
-      currentPage: pagination.current,
-    }
 
     dispatch({
       type: 'user/getUserList',
-      payload: params,
+      payload: pagination
     });
   };
-  /* 
-    <StandardTable
-      selectedRows={selectedRows}
-      loading={loading}
-      data={data}
-      columns={this.columns}
-      onSelectRow={this.handleSelectRows}
-      onChange={this.handleStandardTableChange}
-    />
-  */
 
   return (
     <PageHeaderWrapper>
       <StandardTable
         data={data}
+        rowKey="id"
         selectedRows={selectedRows}
         onSelectRow={handleSelectRows}
         columns={columns}
         loading={loading}
         onChange={handleStandardTableChange}
       />
-      {/* <Table 
-        rowKey="id"
-        columns={columns} 
-        dataSource={props.user.userList} 
-        pagination={{
-          total,
-          current
-        }} 
-      /> */}
     </PageHeaderWrapper>
   )
 }
