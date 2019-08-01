@@ -3,6 +3,7 @@ import defaultSettings from "./defaultSettings"; // https://umijs.org/config/
 
 import slash from "slash2";
 import webpackPlugin from "./plugin.config";
+import pageRouter from './router.config';
 const { pwa, primaryColor } = defaultSettings; // preview.pro.ant.design only do not use in your production ;
 // preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
 
@@ -82,39 +83,7 @@ export default {
   },
   devtool: isAntDesignProPreview ? "source-map" : false,
   // umi routes: https://umijs.org/zh/guide/router.html
-  routes: [
-    {
-      path: "/account",
-      component: "../layouts/UserLayout",
-      routes: [
-        {
-          name: "login",
-          path: "/account/login",
-          component: "./account/login"
-        }
-      ]
-    },
-    {
-      path: "/",
-      component: "../layouts/BasicLayout",
-      Routes: ["src/pages/Authorized"],
-      authority: ["admin", "user"],
-      routes: [
-        {
-          path: "/",
-          name: "welcome",
-          icon: "smile",
-          component: "./Welcome"
-        },
-        {
-          component: "./404"
-        }
-      ]
-    },
-    {
-      component: "./404"
-    }
-  ],
+  routes: pageRouter,
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
     "primary-color": primaryColor
@@ -163,9 +132,16 @@ export default {
     basePath: "/"
   },
   chainWebpack: webpackPlugin,
+  // proxy: {
+  //   '/server/api/': {
+  //     target: 'https://preview.pro.ant.design/',
+  //     changeOrigin: true,
+  //     pathRewrite: { '^/server': '' },
+  //   },
+  // },
   proxy: {
     "/api/": {
-      target: "http://adminv2.happymmall.com/",
+      target: "http://adminv2.happymmall.com",
       changeOrigin: true,
       pathRewrite: { "^/api/": "" }
     }

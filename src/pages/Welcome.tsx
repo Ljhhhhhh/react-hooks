@@ -1,5 +1,6 @@
 import React from "react";
 import { PageHeaderWrapper } from "@ant-design/pro-layout";
+import Link from 'umi/link';
 
 export default (): React.ReactNode => (
   <PageHeaderWrapper>
@@ -14,5 +15,6 @@ export default (): React.ReactNode => (
       </a>
       。
     </p>
+    <Link to="/wel">Go to list page</Link>
   </PageHeaderWrapper>
 );

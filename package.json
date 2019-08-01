@@ -26,7 +26,6 @@
     "test:component": "umi test ./src/components"
   },
   "husky": {
-  
   },
   "lint-staged": {
     "**/*.less": "stylelint --syntax less",
@@ -47,6 +46,7 @@
     "@antv/data-set": "^0.10.2",
     "@uform/antd": "^0.3.7",
     "antd": "^3.20.0",
+    "axios": "^0.19.0",
     "classnames": "^2.2.6",
     "dva": "^2.4.1",
     "lodash": "^4.17.11",

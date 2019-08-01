@@ -32,6 +32,17 @@ const getRouteAuthority = (path: string, routeData: Route[]) => {
   return authorities;
 };
 
+// componentDidMount() {
+//   const { currentUser = {} } = this.props;
+//   if (!currentUser.username) {
+//     const { dispatch } = this.props;
+//     dispatch!({
+//       type: "user/setUserinfo"
+//     });
+//   }
+// }
+
+
 const AuthComponent: React.FC<AuthComponentProps> = ({
   children,
   route = {
@@ -40,11 +51,11 @@ const AuthComponent: React.FC<AuthComponentProps> = ({
   location = {
     pathname: ""
   },
-  user
+  user,
 }) => {
-  const { currentUser } = user;
+  const currentUser = user;
   const { routes = [] } = route;
-  const isLogin = currentUser && currentUser.name;
+  const isLogin = currentUser && currentUser.username;
   return (
     <Authorized
       authority={getRouteAuthority(location.pathname, routes) || ""}
@@ -52,7 +63,7 @@ const AuthComponent: React.FC<AuthComponentProps> = ({
         isLogin ? (
           <Redirect to="/exception/403" />
         ) : (
-          <Redirect to="/user/login" />
+          <Redirect to="/account/login" />
         )
       }
     >

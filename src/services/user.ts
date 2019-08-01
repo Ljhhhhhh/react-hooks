@@ -1,13 +1,12 @@
 import request from "@/utils/request";
-
-export async function query(): Promise<any> {
-  return request("/api/users");
+export interface FormDataType {
+  userName: string;
+  password: string;
 }
 
-export async function queryCurrent(): Promise<any> {
-  return request("/api/currentUser");
-}
-
-export async function queryNotices(): Promise<any> {
-  return request("/api/notices");
+export async function fakeAccountLogin(params: FormDataType) {
+  return request("/manage/user/login.do", {
+    method: "POST",
+    data: params
+  });
 }

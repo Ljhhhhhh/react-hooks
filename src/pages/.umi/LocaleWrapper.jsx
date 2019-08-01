@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   _setIntlObject,
   addLocaleData,
@@ -6,7 +6,7 @@ import {
   intlShape,
   LangContext,
   _setLocaleContext
-} from "umi-plugin-locale";
+} from 'umi-plugin-locale';
 
 const InjectedWrapper = (() => {
   let sfc = (props, context) => {
@@ -14,115 +14,94 @@ const InjectedWrapper = (() => {
     return props.children;
   };
   sfc.contextTypes = {
-    intl: intlShape
+    intl: intlShape,
   };
   return sfc;
 })();
 
-import "moment/locale/pt-br";
-import "moment/locale/zh-cn";
-import "moment/locale/zh-tw";
+import 'moment/locale/pt-br';
+import 'moment/locale/zh-cn';
+import 'moment/locale/zh-tw';
 
 const baseNavigator = true;
 const useLocalStorage = true;
 
-import { LocaleProvider } from "antd";
-import moment from "moment";
-import "moment/locale/zh-cn";
-let defaultAntd = require("antd/lib/locale-provider/zh_CN");
+import { LocaleProvider } from 'antd';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+let defaultAntd = require('antd/lib/locale-provider/zh_CN');
 defaultAntd = defaultAntd.default || defaultAntd;
 
 const localeInfo = {
-  "en-US": {
+  'en-US': {
     messages: {
-      ...(locale => (locale.__esModule ? locale.default : locale))(
-        require("/Users/lujiehui/Documents/www/learn/react-hooks/src/locales/en-US.ts")
-      ),
-      ...(locale => (locale.__esModule ? locale.default : locale))(
-        require("/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/account/login/locales/en-US.ts")
-      )
+      ...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/locales/en-US.ts')),...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/account/login/locales/en-US.ts')),...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/Exception/locales/en-US.js')),
     },
-    locale: "en-US",
-    antd: require("antd/lib/locale-provider/en_US"),
-    data: require("react-intl/locale-data/en"),
-    momentLocale: ""
+    locale: 'en-US',
+    antd: require('antd/lib/locale-provider/en_US'),
+    data: require('react-intl/locale-data/en'),
+    momentLocale: '',
   },
-  "pt-BR": {
+  'pt-BR': {
     messages: {
-      ...(locale => (locale.__esModule ? locale.default : locale))(
-        require("/Users/lujiehui/Documents/www/learn/react-hooks/src/locales/pt-BR.ts")
-      )
+      ...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/locales/pt-BR.ts')),
     },
-    locale: "pt-BR",
-    antd: require("antd/lib/locale-provider/pt_BR"),
-    data: require("react-intl/locale-data/pt"),
-    momentLocale: "pt-br"
+    locale: 'pt-BR',
+    antd: require('antd/lib/locale-provider/pt_BR'),
+    data: require('react-intl/locale-data/pt'),
+    momentLocale: 'pt-br',
   },
-  "zh-CN": {
+  'zh-CN': {
     messages: {
-      ...(locale => (locale.__esModule ? locale.default : locale))(
-        require("/Users/lujiehui/Documents/www/learn/react-hooks/src/locales/zh-CN.ts")
-      ),
-      ...(locale => (locale.__esModule ? locale.default : locale))(
-        require("/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/account/login/locales/zh-CN.ts")
-      )
+      ...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/locales/zh-CN.ts')),...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/account/login/locales/zh-CN.ts')),...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/Exception/locales/zh-CN.js')),
     },
-    locale: "zh-CN",
-    antd: require("antd/lib/locale-provider/zh_CN"),
-    data: require("react-intl/locale-data/zh"),
-    momentLocale: "zh-cn"
+    locale: 'zh-CN',
+    antd: require('antd/lib/locale-provider/zh_CN'),
+    data: require('react-intl/locale-data/zh'),
+    momentLocale: 'zh-cn',
   },
-  "zh-TW": {
+  'zh-TW': {
     messages: {
-      ...(locale => (locale.__esModule ? locale.default : locale))(
-        require("/Users/lujiehui/Documents/www/learn/react-hooks/src/locales/zh-TW.ts")
-      ),
-      ...(locale => (locale.__esModule ? locale.default : locale))(
-        require("/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/account/login/locales/zh-TW.ts")
-      )
+      ...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/locales/zh-TW.ts')),...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/account/login/locales/zh-TW.ts')),...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/Exception/locales/zh-TW.js')),
     },
-    locale: "zh-TW",
-    antd: require("antd/lib/locale-provider/zh_TW"),
-    data: require("react-intl/locale-data/zh"),
-    momentLocale: "zh-tw"
-  }
+    locale: 'zh-TW',
+    antd: require('antd/lib/locale-provider/zh_TW'),
+    data: require('react-intl/locale-data/zh'),
+    momentLocale: 'zh-tw',
+  },
 };
 
-class LocaleWrapper extends React.Component {
+class LocaleWrapper extends React.Component{
   state = {
-    locale: "zh-CN"
+    locale: 'zh-CN',
   };
-  getAppLocale() {
+  getAppLocale(){
     let appLocale = {
-      locale: "zh-CN",
+      locale: 'zh-CN',
       messages: {},
-      data: require("react-intl/locale-data/zh"),
-      momentLocale: "zh-cn"
+      data: require('react-intl/locale-data/zh'),
+      momentLocale: 'zh-cn',
     };
 
-    const runtimeLocale =
-      require("umi/_runtimePlugin").mergeConfig("locale") || {};
-    const runtimeLocaleDefault =
-      typeof runtimeLocale.default === "function"
-        ? runtimeLocale.default()
-        : runtimeLocale.default;
+    const runtimeLocale = require('umi/_runtimePlugin').mergeConfig('locale') || {};
+    const runtimeLocaleDefault =  typeof runtimeLocale.default === 'function' ? runtimeLocale.default() : runtimeLocale.default;
     if (
-      useLocalStorage &&
-      typeof localStorage !== "undefined" &&
-      localStorage.getItem("umi_locale") &&
-      localeInfo[localStorage.getItem("umi_locale")]
+      useLocalStorage
+      && typeof localStorage !== 'undefined'
+      && localStorage.getItem('umi_locale')
+      && localeInfo[localStorage.getItem('umi_locale')]
     ) {
-      appLocale = localeInfo[localStorage.getItem("umi_locale")];
+      appLocale = localeInfo[localStorage.getItem('umi_locale')];
     } else if (
-      typeof navigator !== "undefined" &&
-      localeInfo[navigator.language] &&
-      baseNavigator
+      typeof navigator !== 'undefined'
+      && localeInfo[navigator.language]
+      && baseNavigator
     ) {
       appLocale = localeInfo[navigator.language];
-    } else if (localeInfo[runtimeLocaleDefault]) {
+    } else if(localeInfo[runtimeLocaleDefault]){
       appLocale = localeInfo[runtimeLocaleDefault];
     } else {
-      appLocale = localeInfo["zh-CN"] || appLocale;
+      appLocale = localeInfo['zh-CN'] || appLocale;
     }
     window.g_lang = appLocale.locale;
     appLocale.data && addLocaleData(appLocale.data);
@@ -132,42 +111,30 @@ class LocaleWrapper extends React.Component {
   reloadAppLocale = () => {
     const appLocale = this.getAppLocale();
     this.setState({
-      locale: appLocale.locale
+      locale: appLocale.locale,
     });
   };
 
-  render() {
+  render(){
     const appLocale = this.getAppLocale();
     const LangContextValue = {
       locale: appLocale.locale,
-      reloadAppLocale: this.reloadAppLocale
+      reloadAppLocale: this.reloadAppLocale,
     };
     let ret = this.props.children;
-    ret = (
-      <IntlProvider locale={appLocale.locale} messages={appLocale.messages}>
-        <InjectedWrapper>
-          <LangContext.Provider value={LangContextValue}>
-            <LangContext.Consumer>
-              {value => {
-                _setLocaleContext(value);
-                return this.props.children;
-              }}
-            </LangContext.Consumer>
-          </LangContext.Provider>
-        </InjectedWrapper>
-      </IntlProvider>
-    );
-    return (
-      <LocaleProvider
-        locale={
-          appLocale.antd
-            ? appLocale.antd.default || appLocale.antd
-            : defaultAntd
-        }
-      >
-        {ret}
-      </LocaleProvider>
-    );
+    ret = (<IntlProvider locale={appLocale.locale} messages={appLocale.messages}>
+      <InjectedWrapper>
+        <LangContext.Provider value={LangContextValue}>
+          <LangContext.Consumer>{(value) => {
+            _setLocaleContext(value);
+            return this.props.children
+            }}</LangContext.Consumer>
+        </LangContext.Provider>
+      </InjectedWrapper>
+    </IntlProvider>)
+     return (<LocaleProvider locale={appLocale.antd ? (appLocale.antd.default || appLocale.antd) : defaultAntd}>
+      {ret}
+    </LocaleProvider>);
     return ret;
   }
 }

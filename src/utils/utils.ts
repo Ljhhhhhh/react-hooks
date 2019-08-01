@@ -1,3 +1,5 @@
+import {message} from 'antd'
+
 /* eslint no-useless-escape:0 import/prefer-default-export:0 */
 const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/;
 
@@ -18,5 +20,33 @@ const isAntDesignProOrDev = (): boolean => {
   }
   return isAntDesignPro();
 };
+
+export function setAuthority(authority: string | string[]) {
+  const proAuthority = typeof authority === "string" ? [authority] : authority;
+  return localStorage.setItem(
+    "antd-pro-authority",
+    JSON.stringify(proAuthority)
+  );
+}
+
+interface userinfoParams {
+  answer: string
+  createTime: number
+  email: string
+  id: number
+  password: string
+  phone: string
+  question: string
+  role: number
+  updateTime: number
+  username: string
+}
+
+export function setUserinfo(userinfo: userinfoParams) {
+  localStorage.setItem('userinfo', JSON.stringify(userinfo));
+  const authority = Math.random() >= .5 ? 'admin' : 'user';
+  message.info(`当前角色为${authority}`)
+  setAuthority(authority)
+}
 
 export { isAntDesignProOrDev, isAntDesignPro, isUrl };
