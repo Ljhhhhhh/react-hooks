@@ -7,6 +7,7 @@ export default {
   "user-login.login.tab-login-credentials": "账户密码登录",
   "user-login.login.tab-login-mobile": "手机号登录",
   "user-login.login.remember-me": "自动登录",
+  "user-login.login.is-admin": "是否管理员",
   "user-login.login.forgot-password": "忘记密码",
   "user-login.login.sign-in-with": "其他登录方式",
   "user-login.login.signup": "注册账户",

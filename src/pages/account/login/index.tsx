@@ -6,7 +6,6 @@ import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { Dispatch } from "redux";
 import { connect } from "dva";
 import styles from "./style.less";
-import "antd/dist/antd.css";
 
 interface StateType {
   status?: number;
@@ -25,6 +24,7 @@ interface LoginState {
 export interface FormDataType {
   userName: string;
   password: string;
+  isAdmin: boolean;
 }
 
 @connect(
@@ -72,7 +72,7 @@ class Login extends Component<LoginProps, LoginState> {
     // const { autoLogin } = this.state;
     return (
       <div className={styles.main}>
-        <SchemaForm layout="vertical" onSubmit={this.handleSubmit}>
+        <SchemaForm layout="vertical" onSubmit={this.handleSubmit} defaultValue={{isAdmin: true}}>
           <Field
             type="string"
             required
@@ -99,8 +99,8 @@ class Login extends Component<LoginProps, LoginState> {
           />
           <Field
             type="boolean"
-            title={formatMessage({ id: "user-login.login.remember-me" })}
-            name="autoLogin"
+            title={formatMessage({ id: "user-login.login.is-admin" })}
+            name="isAdmin"
           />
           <FormButtonGroup>
             <Submit />

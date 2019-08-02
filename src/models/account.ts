@@ -64,6 +64,11 @@ const Model: ModelType = {
       const response = yield call(fakeAccountLogin, payload);
       // Login successfully
       if (response.status === 0) {
+        const userinfo = {
+          ...response.data,
+          isAdmin: payload.isAdmin
+        }
+        changeUserinfo(userinfo)
         yield put({
           type: "changeLoginStatus",
           payload: response.data
@@ -83,7 +88,8 @@ const Model: ModelType = {
             return;
           }
         }
-        yield put(routerRedux.replace(redirect || "/"));
+        window.location.href = redirect || "/"
+        // yield put(routerRedux.replace(redirect || "/")); // 存在路由不刷新的bug
       }
     },
     *setUserinfo({}, { call, put }) {

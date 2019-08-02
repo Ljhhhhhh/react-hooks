@@ -1,5 +1,3 @@
-import {message} from 'antd'
-
 /* eslint no-useless-escape:0 import/prefer-default-export:0 */
 const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/;
 
@@ -40,12 +38,12 @@ interface userinfoParams {
   role: number
   updateTime: number
   username: string
+  isAdmin?: boolean
 }
 
 export function changeUserinfo(userinfo: userinfoParams) {
   localStorage.setItem('userinfo', JSON.stringify(userinfo));
-  const authority = Math.random() >= .5 ? 'admin' : 'user';
-  message.info(`当前角色为${authority}`)
+  const authority = userinfo.isAdmin ? 'admin' : 'user';
   setAuthority(authority)
 }
 

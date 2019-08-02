@@ -1,5 +1,5 @@
 import { AnyAction, Reducer } from "redux";
-import { fetchCategory } from "@/services/product";
+import { fetchCategory, changeCategoryName } from "@/services/product";
 import { EffectsCommandMap } from "dva";
 
 export type Effect = (
@@ -21,6 +21,7 @@ export interface ModelType {
   state: CategoryState;
   effects: {
     getList: Effect;
+    setCategoryName: Effect;
   };
   reducers: {
     setList: Reducer<{}>;
@@ -45,6 +46,12 @@ const Model: ModelType = {
           type: "setList",
           payload: response.data
         });
+      }
+    },
+    *setCategoryName({ payload }, { call, put}) {
+      const response = yield call(changeCategoryName, payload)
+      if ( response.status === 0 ) {
+        // getList() // 修改成功之后如何刷新当前页面
       }
     }
   },

@@ -52,7 +52,7 @@ export default [
         path: '/user',
         icon: 'user',
         component: './User/list',
-        authority: ['admin'],
+        authority: 'admin',
       },
     ],
   },

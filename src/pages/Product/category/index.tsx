@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { PageHeaderWrapper } from "@ant-design/pro-layout";
 import { Dispatch } from "redux";
-import { Button, Divider } from 'antd';
+import { Button, Divider, Modal } from 'antd';
+import SchemaForm, { Field, Submit, FormButtonGroup } from "@uform/antd";
+// import { formatMessage } from "umi-plugin-react/locale";
 import { connect } from "dva";
 import StandardTable from '@/components/StandardTable';
 import { CategoryState } from './model';
@@ -30,6 +32,9 @@ interface TableListProps {
 
 const UserList = (props: TableListProps) => {
   const [selectedRows, SetRows] = useState([])
+  const [modalShow, SetModalShow] = useState<boolean>(false)
+  const [selectedCategory, SetSelectedCategory] = useState<any>({})
+  // const [originCategoryName, SetModalShow] = useState<boolean>(false)
 
   const category = props.category
   const {loading, ...datas} = category
@@ -43,6 +48,28 @@ const UserList = (props: TableListProps) => {
       type: 'category/getList',
     })
   }, [])
+
+  const setCategoryName = (item: CategoryItemProps) => {
+    SetSelectedCategory(item)
+    SetModalShow(true)
+  }
+
+  const cancelChange = () => {
+    SetSelectedCategory({})
+    SetModalShow(false)
+  }
+
+  const submitCategoryName = (values: any) => {
+    const data = {
+      ...values,
+      categoryId: selectedCategory.id
+    }
+    const { dispatch } = props;
+    dispatch({
+      type: 'category/setCategoryName',
+      payload: data
+    })
+  }
 
   const columns:ColumnProps<any>[] = [
     {
@@ -62,7 +89,7 @@ const UserList = (props: TableListProps) => {
       render: (item: any) => {
         return (
           <>
-            <Button size="small" type="primary" >修改名称</Button>
+            <Button size="small" type="primary" onClick={() => setCategoryName(item)} >修改名称</Button>
             <Divider type="vertical" />
             <Button size="small" type="ghost" >查看子类目</Button>
           </>
@@ -96,7 +123,43 @@ const UserList = (props: TableListProps) => {
         loading={loading}
         onChange={handleStandardTableChange}
       />
+      <ChangeCategoryNameModal 
+        submit={(v: any) => submitCategoryName(v)}
+        visible={modalShow}
+        cancelChange={() => cancelChange()}
+        originName={selectedCategory.name}
+      />
     </PageHeaderWrapper>
+  )
+}
+
+interface ModalParams {
+  visible: boolean
+  originName?: string
+  submit: (v: any) => void
+  cancelChange: () => void
+}
+
+const ChangeCategoryNameModal = (props: ModalParams) => {
+  const {visible, submit, cancelChange, originName} = props
+  return (
+    <Modal 
+      title="修改分类名称" 
+      visible={visible}
+      footer={null}
+    >
+      <SchemaForm layout="vertical" onSubmit={submit} defaultValue={{categoryName: originName}}>
+          <Field
+            type="string"
+            required
+            name="categoryName"
+          />
+          <FormButtonGroup>
+            <Submit/>
+            <Button onClick={cancelChange}>取消</Button>
+          </FormButtonGroup>
+        </SchemaForm>
+    </Modal>
   )
 }
 

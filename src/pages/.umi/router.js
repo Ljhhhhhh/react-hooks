@@ -163,7 +163,7 @@ const routes = [
                 .default,
             })
           : require('../User/list').default,
-        authority: ['admin'],
+        authority: 'admin',
         exact: true,
       },
       {

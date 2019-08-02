@@ -11,7 +11,7 @@ import {
 } from "@/models/connect";
 
 interface AuthComponentProps extends ConnectProps {
-  user: UserModelState;
+  account: UserModelState;
 }
 
 const getRouteAuthority = (path: string, routeData: Route[]) => {
@@ -40,9 +40,9 @@ const AuthComponent: React.FC<AuthComponentProps> = ({
   location = {
     pathname: ""
   },
-  user,
+  account,
 }) => {
-  const currentUser = user;
+  const currentUser = account;
   const { routes = [] } = route;
   const isLogin = currentUser && currentUser.username;
   return (

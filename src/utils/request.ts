@@ -58,7 +58,7 @@ import qs from "qs";
 // create an axios instance
 const service = axios.create({
   baseURL: "/api", // api的base_url
-  timeout: 5000, // request timeoutheaders: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  timeout: 10000, // request timeoutheaders: { 'Content-Type': 'application/x-www-form-urlencoded' },
   transformRequest: [
     function(data) {
       data = qs.stringify(data);

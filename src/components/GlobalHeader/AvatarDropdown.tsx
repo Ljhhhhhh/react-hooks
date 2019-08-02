@@ -45,6 +45,12 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
             alt="avatar"
           /> */}
           <span className={styles.name}>{currentUser.username}</span>
+          <span>--</span>
+          <span className={styles.name}>
+          {
+            JSON.parse(localStorage.getItem('antd-pro-authority') || '').includes('admin') ? '管理员' : '普通用户'
+          }
+          </span>
         </span>
       );
     }
@@ -85,7 +91,14 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
             src={currentUser.avatar}
             alt="avatar"
           /> */}
+          
           <span className={styles.name}>{currentUser.username}</span>
+          <span>--</span>
+          <span className={styles.name}>
+          {
+            JSON.parse(localStorage.getItem('antd-pro-authority') || '').includes('admin') ? '管理员' : '普通用户'
+          }
+          </span>
         </span>
       </HeaderDropdown>
     ) : (
