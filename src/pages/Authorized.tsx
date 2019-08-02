@@ -32,17 +32,6 @@ const getRouteAuthority = (path: string, routeData: Route[]) => {
   return authorities;
 };
 
-// componentDidMount() {
-//   const { currentUser = {} } = this.props;
-//   if (!currentUser.username) {
-//     const { dispatch } = this.props;
-//     dispatch!({
-//       type: "user/setUserinfo"
-//     });
-//   }
-// }
-
-
 const AuthComponent: React.FC<AuthComponentProps> = ({
   children,
   route = {
@@ -72,6 +61,6 @@ const AuthComponent: React.FC<AuthComponentProps> = ({
   );
 };
 
-export default connect(({ user }: ConnectState) => ({
-  user
+export default connect(({ account }: ConnectState) => ({
+  account
 }))(AuthComponent);

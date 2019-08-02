@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchHome } from "@/services/home";
 import { Statistic, Row, Col, Card } from 'antd'
 import { PageHeaderWrapper } from "@ant-design/pro-layout";
+import Link from 'umi/link'
 
 interface countDataParams {
   orderCount?: number
@@ -23,6 +24,7 @@ const Home = () => {
 
   return (
     <PageHeaderWrapper>
+      <Link to='/user' >111</Link>
       <Row gutter={8}>
         {
           Object.keys(countData).map((key) => {

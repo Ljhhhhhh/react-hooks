@@ -36,10 +36,23 @@ export default [
         component: './Home',
       },
       {
+        path: '/product',
+        name: 'product',
+        icon: 'shop',
+        routes: [
+          {
+            name: 'category',
+            path: '/product/category',
+            component: './Product/category',
+          },
+        ]
+      },
+      {
         name: 'user',
         path: '/user',
         icon: 'user',
-        component: './user/list',
+        component: './User/list',
+        authority: ['admin'],
       },
     ],
   },

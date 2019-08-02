@@ -17,4 +17,6 @@ export default {
   "menu.exception.not-permission": "403",
   "menu.exception.not-find": "404",
   "menu.exception.server-error": "500",
+  "menu.product": "商品",
+  "menu.product.category": "商品分类"
 };

@@ -3,7 +3,7 @@ import { parse, stringify } from "qs";
 import { fakeAccountLogin } from "@/services/account";
 import { EffectsCommandMap } from "dva";
 import { routerRedux } from "dva/router";
-import { setUserinfo } from "@/utils/utils";
+import { changeUserinfo } from "@/utils/utils";
 
 export function getPageQuery(): {
   [key: string]: string;
@@ -89,6 +89,7 @@ const Model: ModelType = {
     *setUserinfo({}, { call, put }) {
       let userinfo = localStorage.getItem("userinfo") ? JSON.parse(localStorage.getItem("userinfo") || '') : null
       if (userinfo) {
+        changeUserinfo(userinfo);
         yield put({
           type: "changeLoginStatus",
           payload: userinfo
@@ -101,7 +102,6 @@ const Model: ModelType = {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setUserinfo(payload);
       return {
         ...payload
       };

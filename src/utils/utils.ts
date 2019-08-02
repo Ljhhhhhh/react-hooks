@@ -42,7 +42,7 @@ interface userinfoParams {
   username: string
 }
 
-export function setUserinfo(userinfo: userinfoParams) {
+export function changeUserinfo(userinfo: userinfoParams) {
   localStorage.setItem('userinfo', JSON.stringify(userinfo));
   const authority = Math.random() >= .5 ? 'admin' : 'user';
   message.info(`当前角色为${authority}`)

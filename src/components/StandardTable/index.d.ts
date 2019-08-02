@@ -3,9 +3,10 @@ import { PaginationConfig, SorterResult, TableCurrentDataSource } from 'antd/lib
 
 export interface StandardTableProps {
   columns: any;
-  onSelectRow: (row: any) => void;
+  onSelectRow?: (row: any) => void;
   data: any;
-  rowKey?: string;
+  rowKey: string;
+  pagination?: any;
   selectedRows: any[];
   onChange?: (
     pagination: PaginationConfig,

@@ -83,10 +83,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
   useEffect(() => {
     if (dispatch) {
       dispatch({
-        type: "user/fetchCurrent"
-      });
-      dispatch({
-        type: "settings/getSetting"
+        type: "account/setUserinfo"
       });
     }
   }, []);
@@ -141,7 +138,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
   );
 };
 
-export default connect(({ global, settings }: ConnectState) => ({
+export default connect(({ global, settings, account }: ConnectState) => ({
   collapsed: global.collapsed,
-  settings
+  settings,
+  account
 }))(BasicLayout);

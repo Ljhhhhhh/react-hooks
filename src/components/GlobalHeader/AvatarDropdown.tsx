@@ -16,15 +16,6 @@ export interface GlobalHeaderRightProps extends ConnectProps {
 }
 
 class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
-  componentDidMount() {
-    const { currentUser = {} } = this.props;
-    if (!currentUser.username) {
-      const { dispatch } = this.props;
-      dispatch!({
-        type: "account/setUserinfo"
-      });
-    }
-  }
 
   onMenuClick = (event: ClickParam) => {
     const { key } = event;
@@ -63,7 +54,7 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
         selectedKeys={[]}
         onClick={this.onMenuClick}
       >
-        <Menu.Item key="center">
+        {/* <Menu.Item key="center">
           <Icon type="user" />
           <FormattedMessage
             id="menu.account.center"
@@ -77,7 +68,7 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
             defaultMessage="account settings"
           />
         </Menu.Item>
-        <Menu.Divider />
+        <Menu.Divider /> */}
         <Menu.Item key="logout">
           <Icon type="logout" />
           <FormattedMessage id="menu.account.logout" defaultMessage="logout" />
