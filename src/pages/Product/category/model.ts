@@ -51,7 +51,7 @@ const Model: ModelType = {
     *setCategoryName({ payload }, { call, put}) {
       const response = yield call(changeCategoryName, payload)
       if ( response.status === 0 ) {
-        // getList() // 修改成功之后如何刷新当前页面
+        // getList() // TODO:: 修改成功之后如何刷新当前页面
       }
     }
   },
