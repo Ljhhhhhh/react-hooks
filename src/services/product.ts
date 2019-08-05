@@ -5,7 +5,7 @@ interface changeCategoryNameParams {
   categoryName: string
 }
 
-export function fetchCategory(categoryId: number  = 0) {
+export function fetchCategory(categoryId: number  = 100003) {
   return request(`/manage/category/get_category.do?categoryId=${categoryId}`)
 }
 

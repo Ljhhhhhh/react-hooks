@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { PageHeaderWrapper } from "@ant-design/pro-layout";
 import { Dispatch } from "redux";
 import { Button, Divider, Modal } from 'antd';
@@ -30,12 +30,15 @@ interface TableListProps {
 //   category: CategoryState
 // }
 
-const UserList = (props: TableListProps) => {
+const List = (props: TableListProps) => {
   const [selectedRows, SetRows] = useState([])
   const [modalShow, SetModalShow] = useState<boolean>(false)
+  const [addModalShow, SetAddModalShow] = useState<boolean>(false)
+  const [categoryPath, SetCategoryPath] = useState<any[]>([])
   const [selectedCategory, SetSelectedCategory] = useState<any>({})
+  // const [selectedCategory, SetSelectedCategory] = useState<any>({})
   // const [originCategoryName, SetModalShow] = useState<boolean>(false)
-
+  const { dispatch } = props;
   const category = props.category
   const {loading, ...datas} = category
   const data = {
@@ -91,7 +94,7 @@ const UserList = (props: TableListProps) => {
           <>
             <Button size="small" type="primary" onClick={() => setCategoryName(item)} >修改名称</Button>
             <Divider type="vertical" />
-            <Button size="small" type="ghost" >查看子类目</Button>
+            <Button size="small" type="ghost" onClick={() => findChild(item)} >查看子类目</Button>
           </>
         )
       }
@@ -103,16 +106,64 @@ const UserList = (props: TableListProps) => {
   };
 
   const handleStandardTableChange = (pagination: any) => {
-    const { dispatch } = props;
-
     dispatch({
       type: 'category/getList',
       payload: pagination
     });
   };
 
+  const handleAddModalVisible = useCallback((flag: boolean) => {
+    SetAddModalShow(flag)
+    console.log(flag, 'flag')
+  }, [])
+  
+  const findChild = useCallback((item?: CategoryItemProps, index?: number) => {
+    console.log(item, 'item', categoryPath.length);
+    // TODO:: 选择子类后回到全部 谷歌搜索：面包屑处理
+    if (index === categoryPath.length - 1) return;
+    if (!item && !categoryPath.length) return;
+    if (item) {
+      const newPath = categoryPath.concat(item)
+      SetCategoryPath(newPath)
+    }
+    dispatch({
+      type: 'category/getList',
+      payload: item && item.id ? item.id : 100003
+    })
+  }, [categoryPath])
+
+  const CategoryPathRender = (path: any[]) => {
+    if (!path.length) return;
+    return path.map((category, index) => {
+      if (index === category.length - 1) {
+        return (
+          <React.Fragment key={category.id}>
+          <span>/</span>
+          <Button disabled={true} key={category.id} type="link" size="small">{category.name}</Button>
+        </React.Fragment>
+        )
+      }
+      return (
+        <React.Fragment key={category.id}>
+          <span>/</span>
+          <Button key={category.id} type="link" size="small">{category.name}</Button>
+        </React.Fragment>
+      )
+    })
+  }
+
   return (
     <PageHeaderWrapper>
+      <Button style={{marginBottom: 15}} icon="plus" type="primary" onClick={() => handleAddModalVisible(true)}>
+        新建
+      </Button>
+      <div>
+        <Button type="link" onClick={() => findChild()}>全部</Button>
+        {
+          CategoryPathRender(categoryPath)
+        }
+      </div>
+      
       <StandardTable
         data={data}
         pagination={false}
@@ -171,4 +222,4 @@ export default connect(
   }) => ({
     category
   })
-)(UserList);
+)(List);
