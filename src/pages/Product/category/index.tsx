@@ -6,6 +6,7 @@ import SchemaForm, { Field, Submit, FormButtonGroup } from "@uform/antd";
 // import { formatMessage } from "umi-plugin-react/locale";
 import { connect } from "dva";
 import StandardTable from '@/components/StandardTable';
+import CreateCategory from './components/CreateCategory'
 import { CategoryState } from './model';
 // import { UserListItemParams } from './data';
 import { ColumnProps } from 'antd/lib/table';
@@ -24,11 +25,6 @@ interface TableListProps {
   dispatch: Dispatch<any>;
   category: CategoryState
 }
-
-// interface userListProps {
-//   dispatch: Dispatch<any>;
-//   category: CategoryState
-// }
 
 const List = (props: TableListProps) => {
   const [selectedRows, SetRows] = useState([])
@@ -163,7 +159,7 @@ const List = (props: TableListProps) => {
       )
     })
   }
-  // TODO:: 新增列表
+  
   return (
     <PageHeaderWrapper>
       <Button style={{ marginBottom: 15 }} icon="plus" type="primary" onClick={() => handleAddModalVisible(true)}>
@@ -191,6 +187,12 @@ const List = (props: TableListProps) => {
         visible={modalShow}
         cancelChange={() => cancelChange()}
         originName={selectedCategory.name}
+      />
+      <CreateCategory 
+        toggleCreate={() => SetAddModalShow} 
+        createCategoryShow={addModalShow} 
+        categoryList={data.list} 
+        categoryPath={categoryPath}
       />
     </PageHeaderWrapper>
   )

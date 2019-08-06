@@ -3,7 +3,7 @@ import history from './history';
 import '../../global.tsx';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import findRoute from '/Users/lujiehui/Documents/www/learn/react-hooks/node_modules/_umi-build-dev@1.10.16@umi-build-dev/lib/findRoute.js';
+import findRoute from '/Users/macbookpro/Documents/www/learn/react-hooks/node_modules/_umi-build-dev@1.10.16@umi-build-dev/lib/findRoute.js';
 
 // runtime plugins
 const plugins = require('umi/_runtimePlugin');
