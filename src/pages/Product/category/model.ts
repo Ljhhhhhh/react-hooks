@@ -1,6 +1,7 @@
 import { AnyAction, Reducer } from "redux";
 import { fetchCategory, changeCategoryName } from "@/services/product";
 import { EffectsCommandMap } from "dva";
+import { message } from 'antd'
 
 export type Effect = (
   action: AnyAction,
@@ -48,10 +49,16 @@ const Model: ModelType = {
         });
       }
     },
+    
     *setCategoryName({ payload }, { call, put}) {
-      const response = yield call(changeCategoryName, payload)
+      const { parentCategoryId, ...data } = payload
+      const response = yield call(changeCategoryName, data)
       if ( response.status === 0 ) {
-        // getList() // TODO:: 修改成功之后如何刷新当前页面
+        message.success(response.data || '更新品类名字成功')
+        yield put({
+          type: 'getList',
+          payload: parentCategoryId
+        })
       }
     }
   },

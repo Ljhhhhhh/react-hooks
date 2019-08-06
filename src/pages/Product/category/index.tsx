@@ -40,7 +40,7 @@ const List = (props: TableListProps) => {
   // const [originCategoryName, SetModalShow] = useState<boolean>(false)
   const { dispatch } = props;
   const category = props.category
-  const {loading, ...datas} = category
+  const { loading, ...datas } = category
   const data = {
     list: datas.list
   }
@@ -65,16 +65,18 @@ const List = (props: TableListProps) => {
   const submitCategoryName = (values: any) => {
     const data = {
       ...values,
-      categoryId: selectedCategory.id
+      categoryId: selectedCategory.id,
+      parentCategoryId: categoryPath.length ? categoryPath[categoryPath.length - 1].id : undefined
     }
     const { dispatch } = props;
     dispatch({
       type: 'category/setCategoryName',
       payload: data
     })
+    cancelChange()
   }
 
-  const columns:ColumnProps<any>[] = [
+  const columns: ColumnProps<any>[] = [
     {
       title: 'ID',
       dataIndex: 'id',
@@ -94,7 +96,7 @@ const List = (props: TableListProps) => {
           <>
             <Button size="small" type="primary" onClick={() => setCategoryName(item)} >修改名称</Button>
             <Divider type="vertical" />
-            <Button size="small" type="ghost" onClick={() => findChild(item)} >查看子类目</Button>
+            <Button size="small" type="ghost" onClick={() => findChild(true, item)} >查看子类目</Button>
           </>
         )
       }
@@ -114,56 +116,66 @@ const List = (props: TableListProps) => {
 
   const handleAddModalVisible = useCallback((flag: boolean) => {
     SetAddModalShow(flag)
-    console.log(flag, 'flag')
   }, [])
-  
-  const findChild = useCallback((item?: CategoryItemProps, index?: number) => {
-    console.log(item, 'item', categoryPath.length);
-    // TODO:: 选择子类后回到全部 谷歌搜索：面包屑处理
-    if (index === categoryPath.length - 1) return;
-    if (!item && !categoryPath.length) return;
-    if (item) {
-      const newPath = categoryPath.concat(item)
-      SetCategoryPath(newPath)
+
+  const findChild = useCallback((goChild: boolean, item?: CategoryItemProps) => {
+    const curId = item && item.id ? item.id : 0
+    if (goChild) {
+      const path = [...categoryPath, item];
+      SetCategoryPath(path)
+    } else {
+      if (!item) {
+        SetCategoryPath([])
+      } else {
+        let index = -1;
+        categoryPath.forEach((cate, i) => {
+          if (cate.id === item.id) {
+            index = i + 1
+          }
+        })
+        const path = [...categoryPath];
+        path.splice(index, 1)
+        SetCategoryPath(path)
+      }
     }
     dispatch({
       type: 'category/getList',
-      payload: item && item.id ? item.id : 100003
+      payload: curId
     })
   }, [categoryPath])
 
   const CategoryPathRender = (path: any[]) => {
     if (!path.length) return;
     return path.map((category, index) => {
-      if (index === category.length - 1) {
+      if (index === categoryPath.length - 1) {
         return (
           <React.Fragment key={category.id}>
-          <span>/</span>
-          <Button disabled={true} key={category.id} type="link" size="small">{category.name}</Button>
-        </React.Fragment>
+            <span>/</span>
+            <Button disabled={true} key={category.id} type="link" size="small">{category.name}</Button>
+          </React.Fragment>
         )
       }
       return (
         <React.Fragment key={category.id}>
           <span>/</span>
-          <Button key={category.id} type="link" size="small">{category.name}</Button>
+          <Button key={category.id} type="link" size="small" onClick={() => findChild(false, category)} >{category.name}</Button>
         </React.Fragment>
       )
     })
   }
-
+  // TODO:: 新增列表
   return (
     <PageHeaderWrapper>
-      <Button style={{marginBottom: 15}} icon="plus" type="primary" onClick={() => handleAddModalVisible(true)}>
+      <Button style={{ marginBottom: 15 }} icon="plus" type="primary" onClick={() => handleAddModalVisible(true)}>
         新建
       </Button>
       <div>
-        <Button type="link" onClick={() => findChild()}>全部</Button>
+        <Button disabled={!categoryPath.length} type="link" onClick={() => findChild(false)}>全部</Button>
         {
           CategoryPathRender(categoryPath)
         }
       </div>
-      
+
       <StandardTable
         data={data}
         pagination={false}
@@ -174,7 +186,7 @@ const List = (props: TableListProps) => {
         loading={loading}
         onChange={handleStandardTableChange}
       />
-      <ChangeCategoryNameModal 
+      <ChangeCategoryNameModal
         submit={(v: any) => submitCategoryName(v)}
         visible={modalShow}
         cancelChange={() => cancelChange()}
@@ -192,26 +204,31 @@ interface ModalParams {
 }
 
 const ChangeCategoryNameModal = (props: ModalParams) => {
-  const {visible, submit, cancelChange, originName} = props
-  return (
-    <Modal 
-      title="修改分类名称" 
+  const { visible, submit, cancelChange, originName } = props
+  const defaultValue = {
+    categoryName: originName
+  }
+  if (visible) return (
+    <Modal
+      title="修改分类名称"
       visible={visible}
       footer={null}
+      onCancel={cancelChange}
     >
-      <SchemaForm layout="vertical" onSubmit={submit} defaultValue={{categoryName: originName}}>
-          <Field
-            type="string"
-            required
-            name="categoryName"
-          />
-          <FormButtonGroup>
-            <Submit/>
-            <Button onClick={cancelChange}>取消</Button>
-          </FormButtonGroup>
-        </SchemaForm>
+      <SchemaForm layout="vertical" onSubmit={submit} defaultValue={defaultValue}>
+        <Field
+          type="string"
+          required
+          name="categoryName"
+        />
+        <FormButtonGroup>
+          <Submit />
+          <Button onClick={cancelChange}>取消</Button>
+        </FormButtonGroup>
+      </SchemaForm>
     </Modal>
-  )
+  );
+  return null
 }
 
 export default connect(
