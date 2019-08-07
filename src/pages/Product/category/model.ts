@@ -1,5 +1,5 @@
 import { AnyAction, Reducer } from "redux";
-import { fetchCategory, changeCategoryName } from "@/services/product";
+import { fetchCategory, changeCategoryName, createCreategory } from "@/services/product";
 import { EffectsCommandMap } from "dva";
 import { message } from 'antd'
 
@@ -23,6 +23,7 @@ export interface ModelType {
   effects: {
     getList: Effect;
     setCategoryName: Effect;
+    createCategory: Effect;
   };
   reducers: {
     setList: Reducer<{}>;
@@ -55,6 +56,18 @@ const Model: ModelType = {
       const response = yield call(changeCategoryName, data)
       if ( response.status === 0 ) {
         message.success(response.data || '更新品类名字成功')
+        yield put({
+          type: 'getList',
+          payload: parentCategoryId
+        })
+      }
+    },
+
+    *createCategory({ payload }, { call, put }) {
+      const { parentCategoryId, ...data } = payload
+      const response = yield call(createCreategory, data)
+      if ( response.status === 0 ) {
+        message.success(response.data || '新增品类成功')
         yield put({
           type: 'getList',
           payload: parentCategoryId

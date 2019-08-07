@@ -58,7 +58,7 @@ import qs from "qs";
 // create an axios instance
 const service = axios.create({
   baseURL: "/api", // api的base_url
-  timeout: 10000, // request timeoutheaders: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  timeout: 40000, // request timeoutheaders: { 'Content-Type': 'application/x-www-form-urlencoded' },
   transformRequest: [
     function(data) {
       data = qs.stringify(data);
@@ -70,7 +70,7 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   config => {
-    message.loading("网络请求中");
+    message.loading("网络请求中", 0);
     return config;
   },
   error => {

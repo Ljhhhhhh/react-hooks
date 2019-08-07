@@ -1,50 +1,72 @@
-import React from 'react';
-import { Drawer, Button } from 'antd'
+import React, { useState, useEffect, useMemo } from 'react';
+import { Drawer, Button } from 'antd';
 import SchemaForm, { Field, Submit, FormButtonGroup } from "@uform/antd";
+import { connect } from "dva";
+import { Dispatch } from "redux";
+import { CategoryItemProps } from '../index'
+// import { CategoryState } from './model';
 
 interface CreateCategoryParams {
-  toggleCreate: () => void
+  toggleCreate: (flag: boolean) => void
   createCategoryShow: boolean
   categoryList: any[]
   categoryPath: any[]
+  dispatch: Dispatch<any>;
 }
 
-const CreateCategory = (props: CreateCategoryParams) => {
+// interface TableListProps {
 
-  const { toggleCreate, createCategoryShow, categoryList, categoryPath } = props
-  let parentsCategory = '全部/'
-  let parent = {}
-  if (categoryPath.length) {
-    categoryPath.forEach(category => {
-      parentsCategory += (category.name + '/')
-    })
-    parent = {
+// }
+
+const CreateCategory = (props: CreateCategoryParams) => {
+  const { toggleCreate, createCategoryShow, categoryList, categoryPath, dispatch } = props
+  const [parentsCategory, setParentsCategory] = useState<string>('全部/')
+  const [normalizeCategoryList, setNormalizeCategoryList] = useState<any[]>([])
+
+  useEffect(() => {
+    let parent = {
       label: parentsCategory,
-      value: categoryPath[categoryPath.length - 1].id
-    }
-  } else {
-    parent = {
-      label: '全部/',
       value: 0
     }
-  }
-  console.log(categoryList, 'categoryList');
-  const normalizeCategoryList = categoryList.map(item => {
-    return {
-      label: parentsCategory + item.name,
-      value: item.id
-    }
-  })
+    let categorys: string;
+    if (categoryPath.length) {
+      categorys = parentsCategory;
+      categoryPath.forEach(category => {
+        categorys += (category.name + '/')
+      })
+      setParentsCategory(categorys)
 
-  normalizeCategoryList.unshift(parent)
+      parent = {
+        label: categorys,
+        value: categoryPath[categoryPath.length - 1].id
+      }
+
+    }
+
+    const list = categoryList.map(item => {
+      return {
+        label: categorys + item.name,
+        value: item.id
+      }
+    })
+
+    list.unshift(parent)
+    setNormalizeCategoryList(list)
+
+  }, [categoryPath])
 
   const submit = (e: any) => {
-    console.log(e, 'submit')
+    const payload = {
+      ...e,
+      parentCategoryId: normalizeCategoryList[normalizeCategoryList.length - 1].value
+    }
+    dispatch({
+      type: 'category/createCategory',
+      payload
+    })
+    // TODO:: 新建后请求列表 参数ID有错
+    toggleCreate(false)
   }
-
-  // const cancelChange = () => {
-  //   console.log('a')
-  // }
 
   return (
     <Drawer visible={createCategoryShow} closable={false} width={500}>
@@ -54,7 +76,7 @@ const CreateCategory = (props: CreateCategoryParams) => {
           enum={normalizeCategoryList}
           required
           title="所属品类"
-          name="select"
+          name="parentId"
         />
         <Field
           type="string"
@@ -65,11 +87,19 @@ const CreateCategory = (props: CreateCategoryParams) => {
 
         <FormButtonGroup>
           <Submit />
-          <Button onClick={toggleCreate}>取消</Button>
+          <Button onClick={() => toggleCreate(false)}>取消</Button>
         </FormButtonGroup>
       </SchemaForm>
     </Drawer>
   )
 }
 
-export default CreateCategory;
+export default connect(
+  ({
+    category
+  }: {
+    category: CategoryItemProps;
+  }) => ({
+    category
+  })
+)(CreateCategory);

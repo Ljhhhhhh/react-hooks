@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { PageHeaderWrapper } from "@ant-design/pro-layout";
 import { Dispatch } from "redux";
 import { Button, Divider, Modal } from 'antd';
@@ -11,7 +11,7 @@ import { CategoryState } from './model';
 // import { UserListItemParams } from './data';
 import { ColumnProps } from 'antd/lib/table';
 
-interface CategoryItemProps {
+export interface CategoryItemProps {
   createTime: number
   id: number
   name: string
@@ -114,7 +114,7 @@ const List = (props: TableListProps) => {
     SetAddModalShow(flag)
   }, [])
 
-  const findChild = useCallback((goChild: boolean, item?: CategoryItemProps) => {
+  const findChild = (goChild: boolean, item?: CategoryItemProps) => {
     const curId = item && item.id ? item.id : 0
     if (goChild) {
       const path = [...categoryPath, item];
@@ -138,11 +138,11 @@ const List = (props: TableListProps) => {
       type: 'category/getList',
       payload: curId
     })
-  }, [categoryPath])
+  }
 
-  const CategoryPathRender = (path: any[]) => {
-    if (!path.length) return;
-    return path.map((category, index) => {
+  const CategoryPathRender = useMemo(() => {
+    if (!categoryPath.length) return;
+    return categoryPath.map((category, index) => {
       if (index === categoryPath.length - 1) {
         return (
           <React.Fragment key={category.id}>
@@ -158,7 +158,7 @@ const List = (props: TableListProps) => {
         </React.Fragment>
       )
     })
-  }
+  }, [categoryPath])
   
   return (
     <PageHeaderWrapper>
@@ -167,9 +167,7 @@ const List = (props: TableListProps) => {
       </Button>
       <div>
         <Button disabled={!categoryPath.length} type="link" onClick={() => findChild(false)}>全部</Button>
-        {
-          CategoryPathRender(categoryPath)
-        }
+        {CategoryPathRender}
       </div>
 
       <StandardTable
@@ -188,12 +186,14 @@ const List = (props: TableListProps) => {
         cancelChange={() => cancelChange()}
         originName={selectedCategory.name}
       />
-      <CreateCategory 
-        toggleCreate={() => SetAddModalShow} 
-        createCategoryShow={addModalShow} 
-        categoryList={data.list} 
-        categoryPath={categoryPath}
-      />
+      {
+        addModalShow && <CreateCategory 
+                          toggleCreate={handleAddModalVisible} 
+                          createCategoryShow={addModalShow} 
+                          categoryList={data.list} 
+                          categoryPath={categoryPath}
+                        />
+      }
     </PageHeaderWrapper>
   )
 }
