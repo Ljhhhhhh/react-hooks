@@ -65,6 +65,7 @@ const Model: ModelType = {
 
     *createCategory({ payload }, { call, put }) {
       const { parentCategoryId, ...data } = payload
+      console.log(payload, 'payload')
       const response = yield call(createCreategory, data)
       if ( response.status === 0 ) {
         message.success(response.data || '新增品类成功')

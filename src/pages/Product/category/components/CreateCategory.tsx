@@ -64,7 +64,7 @@ const CreateCategory = (props: CreateCategoryParams) => {
       type: 'category/createCategory',
       payload
     })
-    // TODO:: 新建后请求列表 参数ID有错
+
     toggleCreate(false)
   }
 
