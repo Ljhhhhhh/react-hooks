@@ -58,7 +58,7 @@ const CreateCategory = (props: CreateCategoryParams) => {
   const submit = (e: any) => {
     const payload = {
       ...e,
-      parentCategoryId: normalizeCategoryList[normalizeCategoryList.length - 1].value
+      parentCategoryId: normalizeCategoryList[0].value
     }
     dispatch({
       type: 'category/createCategory',
