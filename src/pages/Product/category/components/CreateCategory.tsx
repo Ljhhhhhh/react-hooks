@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Drawer, Button } from 'antd';
 import SchemaForm, { Field, Submit, FormButtonGroup } from "@uform/antd";
 import { connect } from "dva";
 import { Dispatch } from "redux";
 import { CategoryItemProps } from '../index'
-// import { CategoryState } from './model';
 
 interface CreateCategoryParams {
   toggleCreate: (flag: boolean) => void
@@ -13,10 +12,6 @@ interface CreateCategoryParams {
   categoryPath: any[]
   dispatch: Dispatch<any>;
 }
-
-// interface TableListProps {
-
-// }
 
 const CreateCategory = (props: CreateCategoryParams) => {
   const { toggleCreate, createCategoryShow, categoryList, categoryPath, dispatch } = props

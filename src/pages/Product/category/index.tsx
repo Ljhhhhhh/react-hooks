@@ -3,7 +3,6 @@ import { PageHeaderWrapper } from "@ant-design/pro-layout";
 import { Dispatch } from "redux";
 import { Button, Divider, Modal } from 'antd';
 import SchemaForm, { Field, Submit, FormButtonGroup } from "@uform/antd";
-// import { formatMessage } from "umi-plugin-react/locale";
 import { connect } from "dva";
 import StandardTable from '@/components/StandardTable';
 import CreateCategory from './components/CreateCategory'
