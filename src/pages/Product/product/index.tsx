@@ -27,23 +27,17 @@ interface TableListProps {
   product: CategoryState
 }
 
+interface SearchFormProps {
+  searchValue?: string | number
+  searchType?: string
+  pageNum?: number
+}
+
 const List = (props: TableListProps) => {
   const [selectedRows, SetRows] = useState([])
-  const [searchValue, SetSearchValue] = useState({})
-  // const [modalShow, SetModalShow] = useState<boolean>(false)
-  // const [addModalShow, SetAddModalShow] = useState<boolean>(false)
-  // const [categoryPath, SetCategoryPath] = useState<any[]>([])
-  // const [selectedCategory, SetSelectedCategory] = useState<any>({})
-  // const [selectedCategory, SetSelectedCategory] = useState<any>({})
-  // const [originCategoryName, SetModalShow] = useState<boolean>(false)
-  const { dispatch, product } = props;
-  // const product = props.product
-  // const { loading, ...datas } = category
-  const data = {
-    list: product.list
-  }
+  const [searchValue, SetSearchValue] = useState<SearchFormProps>({})
 
-  // const data = product;
+  const { dispatch, product } = props;
 
   useEffect(() => {
     const { pagination } = props.product;
@@ -51,47 +45,18 @@ const List = (props: TableListProps) => {
       type: 'product/getList',
       payload: {
         ...searchValue,
-        pageNum: pagination.pageNum
+        pageNum: searchValue.pageNum! || pagination.pageNum
       }
     })
-  }, [searchValue, props.product.pagination.pageNum])
+  }, [searchValue])
 
-  const submit = (data: any) => {
+  const submit = (values: any) => {
+    const data = {
+      ...values,
+      pageNum: 1
+    }
     SetSearchValue(data)
-    // const { pagination } = props.product
-    // console.log('submit:', data)
-    // dispatch({
-    //   type: 'product/getList',
-    //   payload: {
-    //     ...data,
-    //     pageNum: pagination.pageNum
-    //   }
-    // })
   }
-
-  // const setCategoryName = (item: CategoryItemProps) => {
-  //   SetSelectedCategory(item)
-  //   SetModalShow(true)
-  // }
-
-  // const cancelChange = () => {
-  //   SetSelectedCategory({})
-  //   SetModalShow(false)
-  // }
-
-  // const submitCategoryName = (values: any) => {
-  //   const data = {
-  //     ...values,
-  //     categoryId: selectedCategory.id,
-  //     parentCategoryId: categoryPath.length ? categoryPath[categoryPath.length - 1].id : undefined
-  //   }
-  //   const { dispatch } = props;
-  //   dispatch({
-  //     type: 'category/setCategoryName',
-  //     payload: data
-  //   })
-  //   cancelChange()
-  // }
 
   const columns: ColumnProps<any>[] = [
     {
@@ -178,7 +143,8 @@ const List = (props: TableListProps) => {
     dispatch({
       type: 'product/getList',
       payload: {
-        pageNum: pagination.current
+        ...searchValue,
+        pageNum: pagination.current,
       }
     });
   };
@@ -198,7 +164,6 @@ const List = (props: TableListProps) => {
 
       <StandardTable
         data={product}
-        // pagination={product.pagination}
         rowKey="id"
         selectedRows={selectedRows}
         onSelectRow={handleSelectRows}
@@ -262,6 +227,7 @@ const List = (props: TableListProps) => {
 export default connect(
   ({
     product
+    // TODO:: dva的loading loading: loading.models.list,
   }: {
     product: ProductProps;
   }) => ({

@@ -41,7 +41,7 @@ const SearchForm = (props: searchFormProps) => {
 
         <FormButtonGroup>
           <Submit />
-          <Reset/>
+          <Reset />
         </FormButtonGroup>
       </SchemaForm>
   )
