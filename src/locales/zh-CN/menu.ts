@@ -18,5 +18,6 @@ export default {
   "menu.exception.not-find": "404",
   "menu.exception.server-error": "500",
   "menu.product": "商品",
+  "menu.product.productList": "商品列表",
   "menu.product.category": "商品分类"
 };

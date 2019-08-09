@@ -41,6 +41,11 @@ export default [
         icon: 'shop',
         routes: [
           {
+            name: 'productList',
+            path: '/product/product',
+            component: './Product/product',
+          },
+          {
             name: 'category',
             path: '/product/category',
             component: './Product/category',

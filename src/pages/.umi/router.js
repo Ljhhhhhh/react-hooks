@@ -113,6 +113,27 @@ const routes = [
         icon: 'shop',
         routes: [
           {
+            name: 'productList',
+            path: '/product/product',
+            component: __IS_BROWSER
+              ? _dvaDynamic({
+                  app: require('@tmp/dva').getApp(),
+                  models: () => [
+                    import(/* webpackChunkName: 'p__Product__product__model.ts' */ '/Users/lujiehui/Documents/www/learn/react-hooks/src/pages/Product/product/model.ts').then(
+                      m => {
+                        return { namespace: 'model', ...m.default };
+                      },
+                    ),
+                  ],
+                  component: () =>
+                    import(/* webpackChunkName: "p__Product__product" */ '../Product/product'),
+                  LoadingComponent: require('/Users/lujiehui/Documents/www/learn/react-hooks/src/components/PageLoading/index')
+                    .default,
+                })
+              : require('../Product/product').default,
+            exact: true,
+          },
+          {
             name: 'category',
             path: '/product/category',
             component: __IS_BROWSER

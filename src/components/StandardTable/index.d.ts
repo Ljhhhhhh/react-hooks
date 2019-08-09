@@ -15,6 +15,7 @@ export interface StandardTableProps {
     extra?: TableCurrentDataSource<any>
   ) => void;
   loading?: boolean;
+  bordered?: boolean;
 }
 
 export default class StandardTable extends React.Component<StandardTableProps, any> {}

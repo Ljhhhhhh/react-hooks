@@ -33,3 +33,30 @@ export function createCreategory(data: CreateCategoryParams) {
     }
   })
 }
+
+interface fetchProductParams {
+  pageNum: number
+  searchValue?: number
+  searchType?: string
+}
+
+export function fetchProduct(data: fetchProductParams = {pageNum: 1}) {
+  let url, params;
+  console.log(data, 'request data')
+  let { pageNum, searchType, searchValue } = data
+  if ( searchValue ) {
+    url = '/manage/product/search.do'
+    params = {
+      listType: 'search',
+      pageNum,
+      [searchType!]: searchValue
+    }
+  } else {
+    url = '/manage/product/list.do'
+    params = {pageNum}
+  }
+  return request({
+    url,
+    params
+  })
+}
