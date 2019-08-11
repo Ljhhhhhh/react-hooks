@@ -1,15 +1,13 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PageHeaderWrapper } from "@ant-design/pro-layout";
 import { Dispatch } from "redux";
 import { Row, Col, Button, Divider, Popover } from 'antd';
-import SearchForm from './components/SearchForm'
-// import SchemaForm, { Field, Submit, FormButtonGroup } from "@uform/antd";
 import { connect } from "dva";
 import StandardTable from '@/components/StandardTable';
-// import CreateCategory from './components/CreateCategory'
-import { CategoryState } from './model';
-// import { UserListItemParams } from './data';
 import { ColumnProps } from 'antd/lib/table';
+import router from 'umi/router';
+import SearchForm from './components/SearchForm';
+import { CategoryState } from './model';
 
 export interface ProductProps {
   categoryId: number
@@ -24,7 +22,12 @@ export interface ProductProps {
 
 interface TableListProps {
   dispatch: Dispatch<any>;
-  product: CategoryState
+  product: CategoryState;
+  loading: {
+    models: {
+      [key: string]: boolean;
+    };
+  };
 }
 
 interface SearchFormProps {
@@ -37,7 +40,7 @@ const List = (props: TableListProps) => {
   const [selectedRows, SetRows] = useState([])
   const [searchValue, SetSearchValue] = useState<SearchFormProps>({})
 
-  const { dispatch, product } = props;
+  const { dispatch, product, loading } = props;
 
   useEffect(() => {
     const { pagination } = props.product;
@@ -56,6 +59,18 @@ const List = (props: TableListProps) => {
       pageNum: 1
     }
     SetSearchValue(data)
+  }
+
+  const changeStatus = (item: any) => {
+    const { id, status} = item;
+    const newStatus = status === 1 ? 2 : 1;
+    dispatch({
+      type: 'product/setStatus',
+      payload: {
+        productId: id,
+        status: newStatus
+      }
+    })
   }
 
   const columns: ColumnProps<any>[] = [
@@ -81,10 +96,10 @@ const List = (props: TableListProps) => {
     },
     {
       title: '状态',
-      dataIndex: 'status',
+      dataIndex: '',
       key: 'status',
       width: 120,
-      render: (status: number) => {
+      render: (item: any) => {
         interface statusObj {
           statusText: '在售' | '下架'
           btnText: '上架' | '下架'
@@ -98,6 +113,7 @@ const List = (props: TableListProps) => {
           btnType: 'danger',
           btnIcon: 'stop'
         }
+        const {status} = item;
         if (status !== 1) {
           statusObj = {
             statusText: '下架',
@@ -111,7 +127,7 @@ const List = (props: TableListProps) => {
             <span>{statusObj.statusText}</span>
             <Divider type="vertical" />
             <Popover content={statusObj.btnText}>
-              <Button shape="circle" icon={statusObj.btnIcon} type={statusObj.btnType}></Button>
+              <Button onClick={() => changeStatus(item)} shape="circle" icon={statusObj.btnIcon} type={statusObj.btnType}/>
             </Popover>
             
           </>
@@ -149,16 +165,22 @@ const List = (props: TableListProps) => {
     });
   };
 
-  const handleAddModalVisible = useCallback((flag: boolean) => {
-    // SetAddModalShow(flag)
-  }, [])
+  const handleProduct = (id?: number, editable?: boolean ) => {
+    router.push({
+      pathname: '/product/create',
+      query: {
+        id,
+        editable
+      }
+    })
+  }
   
   return (
     <PageHeaderWrapper>
       <Row style={{ marginBottom: 15 }} type="flex" justify="space-between" >
         <Col><SearchForm handleSubmit={submit} /></Col>
         <Col>
-          <Button icon="plus" type="primary" onClick={() => handleAddModalVisible(true)}>新建</Button>
+          <Button icon="plus" type="primary" onClick={() => handleProduct()}>新建</Button>
         </Col>
       </Row>
 
@@ -168,7 +190,7 @@ const List = (props: TableListProps) => {
         selectedRows={selectedRows}
         onSelectRow={handleSelectRows}
         columns={columns}
-        // loading={loading}
+        loading={!!loading}
         onChange={handleStandardTableChange}
       />
       {/* <ChangeCategoryNameModal
@@ -226,11 +248,17 @@ const List = (props: TableListProps) => {
 
 export default connect(
   ({
-    product
-    // TODO:: dva的loading loading: loading.models.list,
+    product,
+    loading
   }: {
-    product: ProductProps;
+    product: ProductProps[];
+    loading: {
+      models: {
+        [key: string]: boolean;
+      };
+    };
   }) => ({
-    product
+    product,
+    loading: loading.models.product
   })
 )(List);

@@ -46,6 +46,12 @@ export default [
             component: './Product/product',
           },
           {
+            name: 'createProduct',
+            path: '/product/create',
+            component: './Product/product/create',
+            hideInMenu: true
+          },
+          {
             name: 'category',
             path: '/product/category',
             component: './Product/category',

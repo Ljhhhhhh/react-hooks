@@ -42,7 +42,6 @@ interface fetchProductParams {
 
 export function fetchProduct(data: fetchProductParams = {pageNum: 1}) {
   let url, params;
-  console.log(data, 'request data')
   let { pageNum, searchType, searchValue } = data
   if ( searchValue ) {
     url = '/manage/product/search.do'
@@ -58,5 +57,34 @@ export function fetchProduct(data: fetchProductParams = {pageNum: 1}) {
   return request({
     url,
     params
+  })
+}
+
+export function setProductStatus(data: {productId: number, status: 1 | 2}) { // 1:上架 2:下架
+  const { productId, status } = data
+  return request({
+    url: '/manage/product/set_sale_status.do',
+    params: {
+      productId,
+      status
+    }
+  })
+}
+
+interface productProps {
+  categoryId: number;
+  name: string;
+  subtitle: string;
+  subImages: string;
+  detail: string;
+  price: number;
+  stock: number;
+  status?: number
+}
+
+export function createProduct(data: productProps) {
+  return request({
+    url: '/manage/product/save.do',
+    params: data
   })
 }

@@ -11,39 +11,40 @@ const SearchForm = (props: searchFormProps) => {
   const { handleSubmit } = props
 
   const submit = (value: any) => {
-    console.log(value, 'value');
     handleSubmit(value)
   }
 
   const categoryList = [
-    {label: '按商品名', value: 'productName'},
-    {label: '按商品ID', value: 'productId'},
+    { label: '按商品名', value: 'productName' },
+    { label: '按商品ID', value: 'productId' },
   ]
 
-  // const toggleCreate = (flag: boolean) => {}
-
   return (
-    <SchemaForm layout="inline" onSubmit={submit}>
-        <Field
-          default="productName"
-          type="string"
-          enum={categoryList}
-          name="searchType"
-        />
-        <Field
-          type="string"
-          name="searchValue"
-          x-rules={{
-            required: true,
-            message: "请先输入搜索内容"
-          }}
-        />
+    <SchemaForm
+      layout="inline"
+      onSubmit={submit}
+      effects={($: any) => {
+        $('onFormReset').subscribe(({ values }: any) => {
+          submit(values)
+        })
+      }}
+    >
+      <Field
+        default="productName"
+        type="string"
+        enum={categoryList}
+        name="searchType"
+      />
+      <Field
+        type="string"
+        name="searchValue"
+      />
 
-        <FormButtonGroup>
-          <Submit />
-          <Reset />
-        </FormButtonGroup>
-      </SchemaForm>
+      <FormButtonGroup>
+        <Submit>搜索</Submit>
+        <Reset />
+      </FormButtonGroup>
+    </SchemaForm>
   )
 }
 

@@ -7,7 +7,6 @@ import { connect } from "dva";
 import StandardTable from '@/components/StandardTable';
 import CreateCategory from './components/CreateCategory'
 import { CategoryState } from './model';
-// import { UserListItemParams } from './data';
 import { ColumnProps } from 'antd/lib/table';
 
 export interface CategoryItemProps {
@@ -22,7 +21,8 @@ export interface CategoryItemProps {
 
 interface TableListProps {
   dispatch: Dispatch<any>;
-  category: CategoryState
+  category: CategoryState;
+  loading: boolean
 }
 
 const List = (props: TableListProps) => {
@@ -31,13 +31,10 @@ const List = (props: TableListProps) => {
   const [addModalShow, SetAddModalShow] = useState<boolean>(false)
   const [categoryPath, SetCategoryPath] = useState<any[]>([])
   const [selectedCategory, SetSelectedCategory] = useState<any>({})
-  // const [selectedCategory, SetSelectedCategory] = useState<any>({})
-  // const [originCategoryName, SetModalShow] = useState<boolean>(false)
-  const { dispatch } = props;
-  const category = props.category
-  const { loading, ...datas } = category
+  const { dispatch, loading } = props;
+  
   const data = {
-    list: datas.list
+    list: props.category.list
   }
 
   useEffect(() => {
@@ -234,10 +231,17 @@ const ChangeCategoryNameModal = (props: ModalParams) => {
 
 export default connect(
   ({
-    category
+    category,
+    loading
   }: {
     category: CategoryItemProps;
+    loading: {
+      models: {
+        [key: string]: boolean;
+      };
+    };
   }) => ({
-    category
+    category,
+    loading: loading.models.category
   })
 )(List);

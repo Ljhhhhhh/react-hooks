@@ -13,8 +13,7 @@ export interface UserModelState {
 }
 
 export interface CategoryState {
-  list: any[],
-  loading: boolean
+  list: any[]
 }
 
 export interface ModelType {
@@ -27,7 +26,6 @@ export interface ModelType {
   };
   reducers: {
     setList: Reducer<{}>;
-    setLoading: Reducer<{}>;
   };
 }
 
@@ -36,12 +34,10 @@ const Model: ModelType = {
 
   state: {
     list: [],
-    loading: false
   },
 
   effects: {
     *getList({ payload }, { call, put }) {
-      yield put({type: "setLoading"});
       const response = yield call(fetchCategory, payload)
       if (response.status === 0) {
         yield put({
@@ -81,15 +77,8 @@ const Model: ModelType = {
     setList(state, { payload }) {
       const list = payload.splice(0, 100)
       return {
-        loading: false,
         list
       };
-    },
-    setLoading(state) {
-      return {
-        ...state,
-        loading: true
-      }
     }
   }
 };

@@ -1,8 +1,8 @@
 // import { pagination } from './model';
 import { AnyAction, Reducer } from "redux";
-import { fetchProduct } from "@/services/product";
+import { fetchProduct, setProductStatus, createProduct } from "@/services/product";
 import { EffectsCommandMap } from "dva";
-// import { message } from 'antd'
+import { message } from 'antd'
 
 export type Effect = (
   action: AnyAction,
@@ -29,12 +29,14 @@ export interface ModelType {
   state: CategoryState;
   effects: {
     getList: Effect;
+    setStatus: Effect;
+    create: Effect;
     // setCategoryName: Effect;
     // createCategory: Effect;
   };
   reducers: {
     setList: Reducer<{}>;
-    setLoading: Reducer<{}>;
+    changeStatus: Reducer<{}>;
   };
 }
 
@@ -52,7 +54,6 @@ const Model: ModelType = {
 
   effects: {
     *getList({ payload }, { call, put }) {
-      // yield put({type: "setLoading"});
       const response = yield call(fetchProduct, payload)
       if (response.status === 0) {
         yield put({
@@ -61,6 +62,45 @@ const Model: ModelType = {
         });
       }
     },
+
+    *setStatus({payload}, {call, put, select}) {
+      const response = yield call(setProductStatus, payload)
+      if (response.status === 0) {
+        message.success(response.data || '修改产品状态成功')
+        const state = yield select(state => state)
+
+        // 不需要重新请求列表，直接修改本地列表数据
+        const newList = state.product.list.map((item: any) => {
+          if (item.id === payload.productId) {
+            item.status = payload.status
+            return item
+          }
+          return item
+        })
+        yield put({
+          type: 'changeStatus',
+          payload: newList
+        })
+
+        // 如果需要重新请求列表获取新状态
+        // yield put({
+        //   type: 'getList',
+        //   payload: {
+        //     pageNum: state.product.pagination.pageNum
+        //   }
+        // })
+      } else {
+        message.error(response.data || '修改产品状态失败')
+      }
+    },
+
+    *create({ payload}, { call, put }) {
+      const response = yield call(createProduct, payload)
+      console.log(response, '新建产品返回信息');
+      // if (response.status === 0) {
+
+      // }
+    }
     
     
 
@@ -80,10 +120,7 @@ const Model: ModelType = {
 
   reducers: {
     setList(state, { payload }) {
-      console.log(payload, 'payload')
-      // const list = payload.splice(0, 100)
       return {
-        // loading: false,
         list: payload.list,
         pagination: {
           pageNum: payload.pageNum,
@@ -91,10 +128,10 @@ const Model: ModelType = {
         }
       };
     },
-    setLoading(state) {
+    changeStatus(state, { payload }) {
       return {
         ...state,
-        loading: true
+        list: payload
       }
     }
   }

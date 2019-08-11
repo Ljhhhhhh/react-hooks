@@ -21,6 +21,12 @@ const Home = () => {
     })
   }, [])
 
+  const keyMap = {
+    userCount: '用户统计',
+    productCount: '产品统计',
+    orderCount: '订单统计',
+  }
+
   return (
     <PageHeaderWrapper>
       <Row gutter={8}>
@@ -28,7 +34,7 @@ const Home = () => {
           Object.keys(countData).map((key) => {
             return (
               <Col span={8} key={key}>
-                <Card title={key}>
+                <Card title={keyMap[key]}>
                   <Statistic value={countData[key]} />
                 </Card>
               </Col>
