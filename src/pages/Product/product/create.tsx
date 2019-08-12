@@ -79,6 +79,7 @@ const CreateProduct = (props: CreateProductProps) => {
 
   const submit = (values: any) => {
     const subImages = subPics.map((item: any) => {
+      item.replace('\\/g', '\/')
       return item.split('/')[3]
     })
     console.log(subImages, 'subImages')
