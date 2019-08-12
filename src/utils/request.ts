@@ -55,9 +55,10 @@ import axios from "axios";
 import { message } from "antd";
 import qs from "qs";
 
+export const BASE_URL = '/api'
 // create an axios instance
 const service = axios.create({
-  baseURL: "/api", // api的base_url
+  baseURL: BASE_URL, // api的base_url
   timeout: 40000, // request timeoutheaders: { 'Content-Type': 'application/x-www-form-urlencoded' },
   transformRequest: [
     function(data) {

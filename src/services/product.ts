@@ -88,3 +88,14 @@ export function createProduct(data: productProps) {
     params: data
   })
 }
+
+export function uploadProdcutPicture(data: any) {
+  return request({
+    url: '/manage/product/upload.do',
+    method: 'POST',
+    headers: {
+      'Content-Type':'multipart/form-data'
+    },
+    data
+  })
+}

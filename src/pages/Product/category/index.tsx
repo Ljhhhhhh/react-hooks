@@ -6,7 +6,7 @@ import SchemaForm, { Field, Submit, FormButtonGroup } from "@uform/antd";
 import { connect } from "dva";
 import StandardTable from '@/components/StandardTable';
 import CreateCategory from './components/CreateCategory'
-import { CategoryState } from './model';
+import { CategoryState } from '../model';
 import { ColumnProps } from 'antd/lib/table';
 
 export interface CategoryItemProps {

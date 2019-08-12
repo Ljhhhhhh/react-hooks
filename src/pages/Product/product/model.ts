@@ -18,7 +18,7 @@ export interface paginationProps {
   total: number
 }
 
-export interface CategoryState {
+export interface ProductStateProps {
   list: any[],
   pagination: paginationProps;
   // loading: boolean
@@ -26,7 +26,7 @@ export interface CategoryState {
 
 export interface ModelType {
   namespace: string;
-  state: CategoryState;
+  state: ProductStateProps;
   effects: {
     getList: Effect;
     setStatus: Effect;
