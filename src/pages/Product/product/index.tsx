@@ -7,7 +7,7 @@ import StandardTable from '@/components/StandardTable';
 import { ColumnProps } from 'antd/lib/table';
 import router from 'umi/router';
 import SearchForm from './components/SearchForm';
-import { CategoryState } from './model';
+import { ProductStateProps } from './model';
 
 export interface ProductProps {
   categoryId: number
@@ -22,7 +22,7 @@ export interface ProductProps {
 
 interface TableListProps {
   dispatch: Dispatch<any>;
-  product: CategoryState;
+  product: ProductStateProps;
   loading: {
     models: {
       [key: string]: boolean;

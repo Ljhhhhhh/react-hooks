@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PageHeaderWrapper } from "@ant-design/pro-layout";
 import SchemaForm, { Field, Submit, Reset, FormButtonGroup } from "@uform/antd";
-import { Row, Col, Cascader } from 'antd'
+import { Row, Col, Cascader, message, Upload } from 'antd'
 import { connect } from "dva";
 import { ProductProps } from './index'
 import { Dispatch } from "redux";
@@ -13,6 +13,7 @@ import withRouter from 'umi/withRouter'
 import BraftEditor from 'braft-editor' // 使用文档： https://www.yuque.com/braft-editor/be/lzwpnr
 import { fetchCategory } from '@/services/product'
 import { BASE_URL } from '@/utils/request'
+// import {UploadFile} from 'antd/lib/upload/interface'
 // 引入编辑器样式
 import 'braft-editor/dist/index.css'
 import './style.less'
@@ -34,7 +35,7 @@ const CreateProduct = (props: CreateProductProps) => {
   const [categoryList, setCategoryList] = useState<CascaderOptionType[]>([])
   const [productId, setProductId] = useState(null)
   const [readOnly, setReadOnly] = useState(false)
-  const [subPics, setSubImages] = useState<string[]>([])
+  const [subPics, setSubImages] = useState<any[]>([])
   const [categoryId, setCategoryId] = useState<number | null>(null)
 
   const { dispatch } = props
@@ -78,16 +79,49 @@ const CreateProduct = (props: CreateProductProps) => {
   // }
 
   const submit = (values: any) => {
-    const subImages = subPics.map((item: any) => {
-      item.replace('\\/g', '\/')
-      return item.split('/')[3]
-    })
-    console.log(subImages, 'subImages')
-    console.log({form: values, productId, categoryId})
+    const detailRaw = productDetail as any;
+    if (!categoryId) {
+      message.error('请选择产品所属分类');
+      return
+    }
+    if (typeof detailRaw.toHTML !== 'function') {
+      message.error('请填写产品详情');
+      return
+    }
+    // let splitIndex = 2;
+    // const subImages = subPics.map((item: any) => {
+    //   const urlReg = new RegExp(/^http(s?):\/\//)
+    //   if (urlReg.test(item)) {
+    //     ++splitIndex
+    //   }
+    //   item.replace('\\/g', '\/')
+    //   return item.split('/')[splitIndex]
+    // })
+    const subImages = values.subImages.map((pic: { data: { uri: string, url: string } }) => pic.data.uri)
+    console.log(subImages, 'subImages');
+    const data = {
+      ...values,
+      subImages: subImages.join(','),
+      categoryId,
+      productId,
+      detail: detailRaw.toHTML()
+    }
+    const payload = Object.keys(data).reduce((obj: any, current: any) => {
+      const newObj = { ...obj }
+      if (data[current]) {
+        newObj[current] = data[current]
+      }
+      return newObj
+    }, {})
+    console.log(payload, '过滤，未过滤', data);
+    // dispatch({
+    //   type: 'product/create',
+    //   payload: data
+    // })
   }
 
   const categoryChange = (value: any) => {
-    const selected: number = value.pop();
+    const [ selected ] = value;
     setCategoryId(selected)
   }
 
@@ -109,9 +143,12 @@ const CreateProduct = (props: CreateProductProps) => {
   const uploadSuccess = () => {
     return {
       onChange(res: uploadResultProps[]) {
+        // TODO:: 为什么只会触发一次
         const piclist: string[] = []
         res.map((item: any) => {
-          piclist.push(item.data.url)
+          if (item.data && item.data.url) {
+            piclist.push(item.data.url)
+          }
         })
         setSubImages(piclist)
       }
@@ -121,75 +158,88 @@ const CreateProduct = (props: CreateProductProps) => {
 
   return (
     <PageHeaderWrapper>
-      <SchemaForm
-        wrapperCol={{ span: 8 }}
-        labelCol={{ span: 4 }}
-        // layout="vertical"
-        onSubmit={submit}
-      >
-        <Field
-          title="产品名称"
-          type="string"
-          name="name"
-          required
-        />
-        <Field
-          title="产品描述"
-          type="string"
-          name="subtitle"
-          required
-        />
-        <Row type="flex" align="middle">
-          <Col span={4} style={{ textAlign: 'right' }}>所属分类：</Col>
-          <Col span={8}>
-            <Cascader
-              options={categoryList}
-              loadData={loadData}
-              onChange={categoryChange}
-              placeholder="请选择所属分类"
+      <Row gutter={44}>
+        <Col span={12}>
+          <SchemaForm
+            // wrapperCol={{ span: 8 }}
+            // labelCol={{ span: 4 }}
+            // layout="vertical"
+            onSubmit={submit}
+          >
+            <Field
+              title="产品名称"
+              type="string"
+              name="name"
+              required
             />
-          </Col>
-        </Row>
-        <Field
-          title="产品价格"
-          type="string"
-          name="price"
-          required
-        />
-        <Field
-          title="产品库存"
-          type="string"
-          name="stock"
-          required
-        />
-        <Field
-          title="产品图片"
-          type="upload"
-          name="stock"
-          x-props={{
-            withCredentials: true,
-            fileList: subPics,
-            listType: 'picture-card',
-            action: `${BASE_URL}/manage/product/upload.do`,
-            name: 'upload_file',
-          }}
-          required
-          x-effect={uploadSuccess}
-        />
-        <BraftEditor
-          value={productDetail}
-          placeholder="请填写产品详情"
-          onChange={(value) => setProductDetail(value)}
-          // onSave={submitContent}
-          readOnly={readOnly}
-        />
+            <Field
+              title="产品描述"
+              type="string"
+              name="subtitle"
+              required
+            />
+            <Field
+              title="产品价格"
+              type="string"
+              name="price"
+              required
+              x-props={{
+                suffix: '元'
+              }}
+            />
+            <Field
+              title="产品库存"
+              type="string"
+              name="stock"
+              required
+              x-props={{
+                suffix: '件'
+              }}
+            />
+            <Field
+              title="产品图片"
+              type="upload"
+              name="subImages"
+              x-props={{
+                withCredentials: true,
+                fileList: subPics,
+                listType: 'picture-card',
+                action: `${BASE_URL}/manage/product/upload.do`,
+                name: 'upload_file',
+              }}
+              required
+              x-effect={uploadSuccess}
+            />
+            <Row type="flex" align="middle" style={{marginBottom: 20}}>
+              <Col style={{ textAlign: 'right' }}>所属分类：</Col>
+              <Col>
+                <Cascader
+                  style={{width: 300}}
+                  options={categoryList}
+                  loadData={loadData}
+                  onChange={categoryChange}
+                  placeholder="请选择所属分类"
+                />
+              </Col>
+            </Row>
 
-
-        <FormButtonGroup>
-          <Submit />
-          <Reset />
-        </FormButtonGroup>
-      </SchemaForm>
+            <FormButtonGroup>
+              <Submit />
+              <Reset />
+            </FormButtonGroup>
+          </SchemaForm>
+        </Col>
+        <Col span={12}>
+          <p>产品详情</p>
+          <BraftEditor
+            value={productDetail}
+            placeholder="请填写产品详情"
+            onChange={(value) => setProductDetail(value)}
+            // onSave={submitContent}
+            readOnly={readOnly}
+          />
+        </Col>
+      </Row>
     </PageHeaderWrapper>
   )
 }
