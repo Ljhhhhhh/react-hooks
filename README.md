@@ -10,7 +10,7 @@ hooks版本在基础版本之上，使用react最新的hooks功能，进行了�
 使用到的hooks有 useState/useEffect/useCallback/useRef/useMemo/useContext/useReducer
 
 #### antd-design-pro版本
-利用antd-design-pro+typescript全部重构
+利用umi+dva+antd-design-pro+typescript+uform全部重构
 
 ## 项目简介
 #### 模块
