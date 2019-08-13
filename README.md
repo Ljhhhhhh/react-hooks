@@ -28,10 +28,13 @@ hooks版本在基础版本之上，使用react最新的hooks功能，进行了�
 
 ## 项目预览
 
-![avatar](./preview/1.png)
-![avatar](./preview/2.png)
-![avatar](./preview/3.png)
-#### 根据用户权限渲染菜单
-![avatar](./preview/4.png)
-#### 用户强制浏览无权限页面提示
-![avatar](./preview/5.png)
+![avatar](http://pw6c7a9jx.bkt.clouddn.com/login.png)
+![avatar](http://pw6c7a9jx.bkt.clouddn.com/home.png)
+![avatar](http://pw6c7a9jx.bkt.clouddn.com/user.png)
+![avatar](http://pw6c7a9jx.bkt.clouddn.com/category.png)
+![avatar](http://pw6c7a9jx.bkt.clouddn.com/category_children.png)
+![avatar](http://pw6c7a9jx.bkt.clouddn.com/product_search.png)
+![avatar](http://pw6c7a9jx.bkt.clouddn.com/category_rename.png)
+![avatar](http://pw6c7a9jx.bkt.clouddn.com/product.png)
+![avatar](http://pw6c7a9jx.bkt.clouddn.com/product_edit.png)
+![avatar](http://pw6c7a9jx.bkt.clouddn.com/product_detail.png)
