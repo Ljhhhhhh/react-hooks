@@ -3,6 +3,7 @@ import { AnyAction, Reducer } from "redux";
 import { fetchProduct, setProductStatus, createProduct } from "@/services/product";
 import { EffectsCommandMap } from "dva";
 import { message } from 'antd'
+import {routerRedux} from 'dva/router'
 
 export type Effect = (
   action: AnyAction,
@@ -69,7 +70,7 @@ const Model: ModelType = {
         message.success(response.data || '修改产品状态成功')
         const state = yield select(state => state)
 
-        // 不需要重新请求列表，直接修改本地列表数据
+        // 不需要重新请求列表，直接修改本地列表数据 Immutable.js提高效率?
         const newList = state.product.list.map((item: any) => {
           if (item.id === payload.productId) {
             item.status = payload.status
@@ -96,26 +97,13 @@ const Model: ModelType = {
 
     *create({ payload}, { call, put }) {
       const response = yield call(createProduct, payload)
-      console.log(response, '新建产品返回信息');
-      // if (response.status === 0) {
-
-      // }
+      if (response.status === 0) {
+        message.success(response.data || '新建产品成功')
+        yield put(routerRedux.push('/product/product'))
+      } else {
+        message.error(response.data || '新建产品失败')
+      }
     }
-    
-    
-
-    // *createCategory({ payload }, { call, put }) {
-    //   const { parentCategoryId, ...data } = payload
-    //   console.log(payload, 'payload')
-    //   const response = yield call(createCreategory, data)
-    //   if ( response.status === 0 ) {
-    //     message.success(response.data || '新增品类成功')
-    //     yield put({
-    //       type: 'getList',
-    //       payload: parentCategoryId
-    //     })
-    //   }
-    // }
   },
 
   reducers: {

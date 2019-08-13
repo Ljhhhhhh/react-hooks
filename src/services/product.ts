@@ -71,31 +71,35 @@ export function setProductStatus(data: {productId: number, status: 1 | 2}) { // 
   })
 }
 
-interface productProps {
-  categoryId: number;
-  name: string;
-  subtitle: string;
-  subImages: string;
-  detail: string;
-  price: number;
-  stock: number;
+export interface ProductProps {
+  categoryId: number
+  parentCategoryId: number
+  id: number
+  imageHost: string
+  mainImage: string
+  name: string
+  price: number
+  detail: any
   status?: number
+  subtitle: string
+  stock: number
 }
 
-export function createProduct(data: productProps) {
+export function createProduct(data: ProductProps) {
+  if (!data.status) {
+    data.status = 1
+  }
   return request({
     url: '/manage/product/save.do',
     params: data
   })
 }
 
-export function uploadProdcutPicture(data: any) {
+export function getProduct(productId: number) {
   return request({
-    url: '/manage/product/upload.do',
-    method: 'POST',
-    headers: {
-      'Content-Type':'multipart/form-data'
-    },
-    data
+    url: `/manage/product/detail.do`,
+    params: {
+      productId
+    }
   })
 }

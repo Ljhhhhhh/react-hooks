@@ -43,8 +43,8 @@
   "dependencies": {
     "@ant-design/pro-layout": "^4.5.9",
     "@antv/data-set": "^0.10.2",
-    "@uform/antd": "^0.3.7",
-    "antd": "^3.20.0",
+    "@uform/antd": "^0.3.10",
+    "antd": "^3.21.4",
     "axios": "^0.19.0",
     "braft-editor": "^2.3.7",
     "classnames": "^2.2.6",

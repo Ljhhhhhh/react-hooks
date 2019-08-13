@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { PageHeaderWrapper } from "@ant-design/pro-layout";
 import { Dispatch } from "redux";
 import { Row, Col, Button, Divider, Popover } from 'antd';
@@ -8,17 +8,7 @@ import { ColumnProps } from 'antd/lib/table';
 import router from 'umi/router';
 import SearchForm from './components/SearchForm';
 import { ProductStateProps } from './model';
-
-export interface ProductProps {
-  categoryId: number
-  id: number
-  imageHost: string
-  mainImage: string
-  name: string
-  price: number
-  status: number
-  subtitle: string
-}
+import { ProductProps } from '@/services/product';
 
 interface TableListProps {
   dispatch: Dispatch<any>;
@@ -43,15 +33,19 @@ const List = (props: TableListProps) => {
   const { dispatch, product, loading } = props;
 
   useEffect(() => {
+    fetchList()
+  }, [searchValue])
+
+  const fetchList = useCallback((pageConfig?: any) => {
     const { pagination } = props.product;
     dispatch({
       type: 'product/getList',
       payload: {
         ...searchValue,
-        pageNum: searchValue.pageNum! || pagination.pageNum
+        pageNum: pageConfig ? pageConfig.current : searchValue.pageNum || pagination.pageNum
       }
     })
-  }, [searchValue])
+  }, [props.product.pagination, searchValue])
 
   const submit = (values: any) => {
     const data = {
@@ -142,9 +136,9 @@ const List = (props: TableListProps) => {
       render: (item: any) => {
         return (
           <>
-            <Button type="primary" icon="eye">查看</Button>
+            <Button type="primary" icon="eye" onClick={() =>handleProduct(item.id, false)}>查看</Button>
             <Divider type="vertical" />
-            <Button type="ghost" icon="edit">编辑</Button>
+            <Button type="ghost" icon="edit" onClick={() =>handleProduct(item.id)}>编辑</Button>
           </>
         )
       }
@@ -156,13 +150,7 @@ const List = (props: TableListProps) => {
   };
 
   const handleStandardTableChange = (pagination: any) => {
-    dispatch({
-      type: 'product/getList',
-      payload: {
-        ...searchValue,
-        pageNum: pagination.current,
-      }
-    });
+    fetchList(pagination)
   };
 
   const handleProduct = (id?: number, editable?: boolean ) => {
